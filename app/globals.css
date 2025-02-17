@@ -2,8 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
+body,
+html,
+:root {
+  width: 100%;
+  overflow-x: hidden;
 }
 
 @layer utilities {
@@ -68,11 +71,29 @@ body {
   }
 }
 
+/* ScrollBar */
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+  ::selection {
+    @apply bg-slate-600/20 text-primary/90 transition-all
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-foreground rounded-3xl;
+  }
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground rounded-3xl;
   }
 }

@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Baloo_Bhaijaan_2 } from "next/font/google";
+import { Toaster } from "react-hot-toast";
+import ScrollToTop from "./components/scroll-to-top";
+
+import NextTopLoader from "nextjs-toploader";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 
 export const metadata: Metadata = {
-  title: "Quick Quiz App",
+  title: "أختبار علم البيئة - محاكي نهائي",
   description: "by tamim al-sahali dev",
 };
 const font = Baloo_Bhaijaan_2({
@@ -17,10 +22,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body
-        className={`${font.className} antialiased`}
-      >
-        {children}
+      <body className={`${font.className} antialiased`}>
+        <ThemeProvider attribute="class" defaultTheme="system">
+          <NextTopLoader
+            color={"#3671f3"}
+            initialPosition={0.08}
+            height={3}
+            showSpinner={false}
+            easing="ease"
+            speed={200}
+            shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+            zIndex={1600}
+          />
+          <Toaster position="bottom-right" />
+
+          {children}
+          <ScrollToTop />
+        </ThemeProvider>
       </body>
     </html>
   );
