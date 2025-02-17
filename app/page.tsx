@@ -108,11 +108,11 @@ export default function Component() {
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex items-center justify-center gap-2 mb-8"
+        className="flex items-center justify-center flex-wrap gap-2 mb-8"
       >
-        <Badge variant="secondary">ثانوية زهير بن قيس</Badge>
-        <Badge variant="secondary">المعلم: عبدالخالق جبره</Badge>
-        <Badge variant="secondary">عدد الأسئلة: {questions.length}</Badge>
+        <Badge variant="secondary" className="text-sm">ثانوية زهير بن قيس</Badge>
+        <Badge variant="secondary" className="text-sm">المعلم: عبدالخالق جبره</Badge>
+        <Badge variant="secondary" className="text-sm">عدد الأسئلة: {questions.length}</Badge>
 
         <div className="flex items-center gap-2 justify-center">
           <ModeToggle />
