@@ -84,7 +84,10 @@ export default function Component() {
   };
 
   return (
-    <div className="container mx-auto py-24 max-w-screen-md p-4" dir="rtl">
+    <div
+      className="container mx-auto py-24 pb-32 max-w-screen-md p-4"
+      dir="rtl"
+    >
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -112,13 +115,17 @@ export default function Component() {
         <Badge variant="secondary">عدد الأسئلة: {questions.length}</Badge>
 
         <div className="flex items-center gap-2 justify-center">
-        <ModeToggle />
-        <a href="http://" target="_blank" rel="noopener noreferrer"> 
-        <Button variant="outline" size="icon">
-          <Github className="h-[1.2rem] w-[1.2rem]" />
-          <span className="sr-only">github</span>
-        </Button>
-        </a>
+          <ModeToggle />
+          <a
+            href="https://github.com/whathappens1/quiz-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button variant="outline" size="icon">
+              <Github className="h-[1.2rem] w-[1.2rem]" />
+              <span className="sr-only">github</span>
+            </Button>
+          </a>
         </div>
       </motion.div>
       <AnimatePresence mode="wait">
@@ -207,8 +214,19 @@ export default function Component() {
                 <CardTitle>ملخص النتائج</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>الإجابات الصحيحة: {correctAnswers}</p>
-                <p>الإجابات الخاطئة: {incorrectAnswers}</p>
+                <Badge
+                  className={`bg-green-500 dark:bg-green-600  hover:bg-green-600 hover:opacity-90 text-white`}
+                  variant={"default"}
+                >
+                  <p>الإجابات الصحيحة: {correctAnswers}</p>
+                </Badge>
+                <br />
+                <Badge
+                  className={`bg-red-500 dark:bg-red-600 hover:bg-red-600 hover:opacity-90 text-white`}
+                  variant={"default"}
+                >
+                  <p>الإجابات الخاطئة: {incorrectAnswers}</p>
+                </Badge>
                 <p>
                   النسبة المئوية للإجابات الصحيحة:{" "}
                   {((correctAnswers / questions.length) * 100).toFixed(2)}%
@@ -226,11 +244,16 @@ export default function Component() {
                   <CardContent>
                     <p>إجابتك: {userAnswer || "لم تجب"}</p>
                     <p>الإجابة الصحيحة: {question.correctAnswer}</p>
-                    <p
-                      className={isCorrect ? "text-green-500" : "text-red-500"}
+                    <Badge
+                      className={`${
+                        isCorrect
+                          ? "bg-green-500 dark:bg-green-600 hover:bg-green-600 hover:opacity-90"
+                          : "bg-red-500 dark:bg-red-600 hover:bg-red-600 hover:opacity-90"
+                      } text-white`}
+                      variant={"default"}
                     >
-                      {isCorrect ? "إجابة صحيحة!" : "إجابة خاطئة"}
-                    </p>
+                      <p>{isCorrect ? "إجابة صحيحة!" : "إجابة خاطئة"}</p>
+                    </Badge>
                   </CardContent>
                 </Card>
               );
@@ -242,14 +265,24 @@ export default function Component() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-sm text-center">
-            ملاحظة: جميع الاسئلة من قروب تيليجرام المادة للمعلم عبدالخالق جبره
+          <p className="text-sm text-center text-muted-foreground">
+            ملاحظة: جميع الاسئلة من{" "}
+            <a href="https://t.me/+qTLPMOCOk54wODVk" target="_blank" rel="noopener noreferrer">
+              <span className="text-black dark:text-white underline cursor-pointer">
+                قروب تيليجرام المادة للمعلم عبدالخالق جبر
+              </span>
+            </a>{" "}
             تم جمع الاسئلة بواسطة الذكاء الاصطناعي وجميع الإجابات الصحيحة في
-            الاختبار قد تحتمل نسبة خطأ
+            الاختبار قد تحتمل نسبة خطأ!
+          </p>
+          <Separator className="my-4" />
+          <p className="text-muted-foreground text-sm text-center">
+            كل الحقوق محفوظة لـ{" "}
+            <span className="text-black dark:text-white">تميم السهلي</span> ©
+            2025.
           </p>
         </motion.div>
       </AnimatePresence>
-      <Separator />
       <div className="border-t w-full fixed bottom-0 left-0 right-0 bg-background/70 backdrop-blur-md">
         <AnimatePresence mode="wait">
           <motion.div
