@@ -35,8 +35,8 @@ export default function RootLayout({
             zIndex={1600}
           />
           <Toaster position="bottom-right" />
-
           {children}
+          <Analytics/>
           <ScrollToTop />
         </ThemeProvider>
       </body>
