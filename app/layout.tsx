@@ -3,7 +3,7 @@ import "./globals.css";
 import { Baloo_Bhaijaan_2 } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./components/scroll-to-top";
-
+import { Analytics } from "@vercel/analytics/react"
 import NextTopLoader from "nextjs-toploader";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 
