@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![عرض المشروع](https://final-ecology-form.vercel.app/assets/overview.png)
+# اختبار فورم علم البيئة (نهائي)
 
-## Getting Started
+من جميع أسئلة [قروب تليجرام المادة بمجموع 200 سؤال](https://t.me/+qTLPMOCOk54wODVk)
+ملاحظة هامة: تم جمع الاسئلة بواسطة الذكاء الاصطناعي وجميع الإجابات الصحيحة في الاختبار قد تحتمل نسبة خطأ!
 
-First, run the development server:
+## المميزات
+
+- إظهار جميع الصور المرفقة بالاسئلة.
+- إمكانية إظهار النتيجة.
+- إمكانية إعادة الاختبار.
+- إمكانية التدبيل بين الوضع الليلي والصباحي.
+
+كل الحقوق محفوظة لـ تميم السهلي © 2025.
+
+## البدء
+
+أولاً، قم بتشغيل خادم التطوير:
 
 ```bash
 npm run dev
-# or
+# أو
 yarn dev
-# or
+# أو
 pnpm dev
-# or
+# أو
 bun dev
 ```
+افتح [http://localhost:3000](http://localhost:3000) في متصفحك لرؤية النتيجة.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+يمكنك البدء في تعديل الصفحة عن طريق تعديل الملف `app/page.tsx.` سيتم تحديث الصفحة تلقائيًا أثناء تعديل الملف.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+يستخدم هذا المشروع [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) لتحميل وتحسين خط [Geist](https://vercel.com/font) تلقائيًا، وهو عائلة خطوط جديدة من Vercel.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## تعلم المزيد
 
-## Learn More
+لتعلم المزيد عن Next.js، يمكنك الاطلاع على المصادر التالية:
 
-To learn more about Next.js, take a look at the following resources:
+- توثيق Next.js - تعرف على ميزات Next.js وواجهة برمجة التطبيقات (API).
+- تعلم Next.js - برنامج تعليمي تفاعلي لـ Next.js.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+يمكنك أيضًا زيارة مستودع Next.js على GitHub - حيث نرحب بملاحظاتك ومساهماتك!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## النشر على Vercel
 
-## Deploy on Vercel
+أسهل طريقة لنشر تطبيق Next.js الخاص بك هي استخدام منصة [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) من مبتكري Next.js.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+اطلع على [Next.js توثيق نشر](https://nextjs.org/docs/app/building-your-application/deploying) لمزيد من التفاصيل.
