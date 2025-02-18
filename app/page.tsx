@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -10,29 +10,65 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { questions } from "@/lib/questions";
+import { Question, questions } from "@/lib/questions";
 import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Github } from "lucide-react";
 
 export default function Component() {
-  const [showResults, setShowResults] = useState(false);
+  // Initialize state from localStorage if available
+  const [showResults, setShowResults] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return JSON.parse(localStorage.getItem('quizShowResults') || 'false');
+    }
+    return false;
+  });
   const [mustComplete] = useState(false);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [incorrectAnswers, setIncorrectAnswers] = useState(0);
+  const [correctAnswers, setCorrectAnswers] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return JSON.parse(localStorage.getItem('quizCorrectAnswers') || '0');
+    }
+    return 0;
+  });
+  const [incorrectAnswers, setIncorrectAnswers] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return JSON.parse(localStorage.getItem('quizIncorrectAnswers') || '0');
+    }
+    return 0;
+  });
+
+  // Get saved answers from localStorage
+  const savedAnswers = typeof window !== 'undefined' 
+    ? JSON.parse(localStorage.getItem('quizAnswers') || '{}')
+    : {};
+
   const {
     handleSubmit,
     formState: { errors },
     watch,
     setValue,
   } = useForm({
-    defaultValues: Object.fromEntries(
-      questions.map((q) => [`question-${q.id}`, ""])
-    ),
+    defaultValues: {
+      ...Object.fromEntries(questions.map((q) => [`question-${q.id}`, ""])),
+      ...savedAnswers // Merge saved answers with default empty values
+    },
   });
 
-  // Watch all question answers
+  // Save answers whenever they change
   const allAnswers = questions.map((q) => watch(`question-${q.id}`));
+  
+  // Save state to localStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const answers = Object.fromEntries(
+        questions.map((q) => [`question-${q.id}`, watch(`question-${q.id}`)])
+      );
+      localStorage.setItem('quizAnswers', JSON.stringify(answers));
+      localStorage.setItem('quizShowResults', JSON.stringify(showResults));
+      localStorage.setItem('quizCorrectAnswers', JSON.stringify(correctAnswers));
+      localStorage.setItem('quizIncorrectAnswers', JSON.stringify(incorrectAnswers));
+    }
+  }, [allAnswers, showResults, correctAnswers, incorrectAnswers, watch]);
 
   // Remove unused mustComplete state
   const isAllQuestionsAnswered = allAnswers.every((answer) => answer !== "");
@@ -83,6 +119,18 @@ export default function Component() {
     hidden: { opacity: 0, y: 50 },
   };
 
+  // Update reset functionality to clear localStorage
+  const resetQuiz = () => {
+    setShowResults(false);
+    setCorrectAnswers(0);
+    setIncorrectAnswers(0);
+    questions.forEach((q) => setValue(`question-${q.id}`, ""));
+    localStorage.removeItem('quizAnswers');
+    localStorage.removeItem('quizShowResults');
+    localStorage.removeItem('quizCorrectAnswers');
+    localStorage.removeItem('quizIncorrectAnswers');
+  };
+
   return (
     <div
       className="container mx-auto py-24 pb-32 max-w-screen-md p-4"
@@ -110,9 +158,15 @@ export default function Component() {
         transition={{ duration: 0.5 }}
         className="flex items-center justify-center flex-wrap gap-2 mb-8"
       >
-        <Badge variant="secondary" className="text-sm">ثانوية زهير بن قيس</Badge>
-        <Badge variant="secondary" className="text-sm">المعلم: عبدالخالق جبره</Badge>
-        <Badge variant="secondary" className="text-sm">عدد الأسئلة: {questions.length}</Badge>
+        <Badge variant="secondary" className="text-sm">
+          ثانوية زهير بن قيس
+        </Badge>
+        <Badge variant="secondary" className="text-sm">
+          المعلم: عبدالخالق جبره
+        </Badge>
+        <Badge variant="secondary" className="text-sm">
+          عدد الأسئلة: {questions.length}
+        </Badge>
 
         <div className="flex items-center gap-2 justify-center">
           <ModeToggle />
@@ -229,34 +283,64 @@ export default function Component() {
                 </Badge>
                 <p>
                   النسبة المئوية للإجابات الصحيحة:{" "}
-                  {((correctAnswers / questions.length) * 100).toFixed(2)}%
+                  <span className="font-bold">
+                    {(correctAnswers / correctAnswers + incorrectAnswers) * 100}
+                    %
+                  </span>
                 </p>
               </CardContent>
             </Card>
             {questions.map((question) => {
               const userAnswer = watch(`question-${question.id}`);
               const isCorrect = userAnswer === question.correctAnswer;
-              return (
-                <Card key={question.id} className="mb-4">
-                  <CardHeader>
-                    <CardTitle>{question.text}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>إجابتك: {userAnswer || "لم تجب"}</p>
-                    <p>الإجابة الصحيحة: {question.correctAnswer}</p>
-                    <Badge
-                      className={`${
-                        isCorrect
-                          ? "bg-green-500 dark:bg-green-600 hover:bg-green-600 hover:opacity-90"
-                          : "bg-red-500 dark:bg-red-600 hover:bg-red-600 hover:opacity-90"
-                      } text-white`}
-                      variant={"default"}
-                    >
-                      <p>{isCorrect ? "إجابة صحيحة!" : "إجابة خاطئة"}</p>
-                    </Badge>
-                  </CardContent>
-                </Card>
-              );
+              if (userAnswer) {
+                return (
+                  <Card key={question.id} className="mb-4">
+                    <CardHeader>
+                      <Badge dir="rtl" className="w-fit">
+                        سؤال رقم {question.id}
+                      </Badge>
+                      {question?.imageURL && (
+                        <div className="my-3">
+                          <Image
+                            src={question?.imageURL || "/placeholder.svg"}
+                            alt="Question image"
+                            width={200}
+                            height={200}
+                            loading="lazy"
+                            className="rounded-xl bg-muted border w-72 h-full object-contain mb-2"
+                          />
+                        </div>
+                      )}
+                      <CardTitle>{question.text}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p>
+                        إجابتك:{" "}
+                        <span className="font-bold">
+                          {userAnswer || "لم تجب"}{" "}
+                        </span>
+                      </p>
+                      <p>
+                        الإجابة الصحيحة:{" "}
+                        <span className="font-bold">
+                          {question.correctAnswer}{" "}
+                        </span>
+                      </p>
+                      <Badge
+                        className={`${
+                          isCorrect
+                            ? "bg-green-500 dark:bg-green-600 hover:bg-green-600 hover:opacity-90"
+                            : "bg-red-500 dark:bg-red-600 hover:bg-red-600 hover:opacity-90"
+                        } text-white`}
+                        variant={"default"}
+                      >
+                        <p>{isCorrect ? "إجابة صحيحة!" : "إجابة خاطئة"}</p>
+                      </Badge>
+                    </CardContent>
+                  </Card>
+                );
+              }
             })}
           </motion.div>
         )}
@@ -267,7 +351,11 @@ export default function Component() {
         >
           <p className="text-sm text-center text-muted-foreground">
             ملاحظة: جميع الاسئلة من{" "}
-            <a href="https://t.me/+qTLPMOCOk54wODVk" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://t.me/+qTLPMOCOk54wODVk"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span className="text-black dark:text-white underline cursor-pointer">
                 قروب تيليجرام المادة للمعلم عبدالخالق جبر
               </span>
@@ -305,12 +393,7 @@ export default function Component() {
                 </Button>
               ) : (
                 <Button
-                  onClick={() => {
-                    setShowResults(false);
-                    setCorrectAnswers(0);
-                    setIncorrectAnswers(0);
-                    questions.forEach((q) => setValue(`question-${q.id}`, ""));
-                  }}
+                  onClick={resetQuiz}
                   className="w-full"
                 >
                   إعادة الاختبار
