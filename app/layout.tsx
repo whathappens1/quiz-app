@@ -8,7 +8,7 @@ import NextTopLoader from "nextjs-toploader";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 
 export const metadata: Metadata = {
-  title: "أختبار أحياء - محاكي",
+  title: "أختبار أحياء الفصل الأول - محاكي",
   description: "by tamim al-sahali dev",
 };
 const font = Baloo_Bhaijaan_2({

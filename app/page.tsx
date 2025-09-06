@@ -51,7 +51,9 @@ export default function Component() {
 
   // Get saved answers array for calculations
   const savedAnswers = isClient
-    ? Object.values(JSON.parse(localStorage.getItem("quizAnswers") || "{}")).filter(answer => answer !== "")
+    ? Object.values(
+        JSON.parse(localStorage.getItem("quizAnswers") || "{}")
+      ).filter((answer) => answer !== "")
     : [];
 
   const {
@@ -114,7 +116,7 @@ export default function Component() {
 
   // Remove unused mustComplete state
   const isAllQuestionsAnswered = allAnswers.every((answer) => answer !== "");
-  console.log(questions)
+  console.log(questions);
 
   const onSubmit = () => {
     if (mustComplete) {
@@ -148,7 +150,7 @@ export default function Component() {
         const userAnswer = watch(`question-${question.id}`);
         if (userAnswer === question.correctAnswer && userAnswer !== "") {
           correct++;
-        } else if ( userAnswer !== "") {
+        } else if (userAnswer !== "") {
           incorrect++;
         }
       });
@@ -196,13 +198,13 @@ export default function Component() {
         transition={{ duration: 0.5 }}
         className="text-3xl font-bold text-center mb-2 sm:flex-row flex flex-col  items-center justify-center gap-2"
       >
-        أختبار أحياء
+        أختبار أحياء الفصل الأول
         <div className="flex items-center justify-center gap-2">
           <Badge variant="default" className="text-base">
             صف ثاني ثانوي
           </Badge>
           <Badge variant="default" className="text-base">
-            محاكي 
+            محاكي
           </Badge>
         </div>
       </motion.h1>
@@ -254,55 +256,88 @@ export default function Component() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: question.id * 0.1 }}
               >
-                <Card className="mb-6">
-                  <CardHeader>
-                    <Badge dir="rtl" className="w-fit">
-                      سؤال رقم {question.id}
-                    </Badge>
-                    {question?.imageURL && (
-                      <div className="my-3">
-                        <Image
-                          src={question?.imageURL || "/placeholder.svg"}
-                          alt="Question image"
-                          width={200}
-                          height={200}
-                          loading="lazy"
-                          className="rounded-xl bg-muted border w-72 h-full object-contain mb-2"
-                        />
-                      </div>
-                    )}
-                    <CardTitle
-                      dir="rtl"
-                      className="flex items-center justify-start gap-2"
-                    >
-                      {question.text}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <RadioGroup
-                      dir="rtl"
-                      defaultValue=""
-                      onValueChange={(value) =>
-                        setValue(`question-${question.id}`, value)
-                      }
-                      value={watch(`question-${question.id}`)}
-                    >
-                      {question.options.map((option, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                          <RadioGroupItem
-                            value={option}
-                            id={`q${question.id}-${index}`}
+                {question.intro && (
+                  <Card className="mb-6 relative z-10 overflow-hidden">
+                    <div
+                      className="absolute inset-0 opacity-50 backdrop-blur-sm"
+                      style={{
+                        backgroundImage: `url(${
+                          question.intro?.imageURL || "/placeholder.svg"
+                        })`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                        filter: "blur(8px)",
+                        transform: "scale(1.1)",
+                      }}
+                    />
+
+                    <div className={`relative z-10 sm:pb-6 pb-0`}>
+                      <CardHeader className="">
+                        <CardTitle
+                          dir="rtl"
+                          className="flex items-center justify-start gap-2"
+                        >
+                          {question.intro.text}
+                        </CardTitle>
+                      </CardHeader>
+                    </div>
+                  </Card>
+                )}
+                <Card className="mb-6 relative z-10 overflow-hidden">
+                  <div className={`relative z-10`}>
+                    <CardHeader className="">
+                      <Badge dir="rtl" className="w-fit">
+                        سؤال رقم {question.id}
+                      </Badge>
+
+                      {question?.imageURL && (
+                        <div className="my-3">
+                          <Image
+                            src={question?.imageURL || "/placeholder.svg"}
+                            alt="Question image"
+                            width={200}
+                            height={200}
+                            loading="lazy"
+                            className="rounded-xl bg-muted border w-72 h-full object-contain mb-2"
                           />
-                          <Label htmlFor={`q${question.id}-${index}`}>
-                            {option}
-                          </Label>
                         </div>
-                      ))}
-                    </RadioGroup>
-                    {errors[`question-${question.id}`] && (
-                      <p className="text-red-500 mt-2">هذا الحقل مطلوب</p>
-                    )}
-                  </CardContent>
+                      )}
+
+                      <CardTitle
+                        dir="rtl"
+                        className="flex items-center justify-start gap-2"
+                      >
+                        {question.text}
+                      </CardTitle>
+                    </CardHeader>
+
+                    <CardContent>
+                      <RadioGroup
+                        dir="rtl"
+                        defaultValue=""
+                        onValueChange={(value) =>
+                          setValue(`question-${question.id}`, value)
+                        }
+                        value={watch(`question-${question.id}`)}
+                      >
+                        {question.options?.map((option, index) => (
+                          <div key={index} className="flex items-center gap-2">
+                            <RadioGroupItem
+                              value={option}
+                              id={`q${question.id}-${index}`}
+                            />
+                            <Label htmlFor={`q${question.id}-${index}`}>
+                              {option}
+                            </Label>
+                          </div>
+                        ))}
+                      </RadioGroup>
+                      {errors[`question-${question.id}`] && (
+                        <p className="text-red-500 mt-2">هذا الحقل مطلوب</p>
+                      )}
+                    </CardContent>
+                  </div>
                 </Card>
               </motion.div>
             ))}
@@ -362,50 +397,80 @@ export default function Component() {
               const isCorrect = userAnswer === question.correctAnswer;
               if (userAnswer) {
                 return (
-                  <Card key={question.id} className="mb-4">
-                    <CardHeader>
-                      <Badge dir="rtl" className="w-fit">
-                        سؤال رقم {question.id}
-                      </Badge>
-                      {question?.imageURL && (
-                        <div className="my-3">
-                          <Image
-                            src={question?.imageURL || "/placeholder.svg"}
-                            alt="Question image"
-                            width={200}
-                            height={200}
-                            loading="lazy"
-                            className="rounded-xl bg-muted border w-72 h-full object-contain mb-2"
-                          />
+                  <div key={question.id}>
+                    {question.intro && (
+                      <Card className="mb-6 relative z-10 overflow-hidden">
+                        <div
+                          className="absolute inset-0 opacity-50 backdrop-blur-sm"
+                          style={{
+                            backgroundImage: `url(${
+                              question.intro?.imageURL || "/placeholder.svg"
+                            })`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                            backgroundRepeat: "no-repeat",
+                            filter: "blur(8px)",
+                            transform: "scale(1.1)",
+                          }}
+                        />
+
+                        <div className={`relative z-10 sm:pb-6 pb-0`}>
+                          <CardHeader className="">
+                            <CardTitle
+                              dir="rtl"
+                              className="flex items-center justify-start gap-2"
+                            >
+                              {question.intro.text}
+                            </CardTitle>
+                          </CardHeader>
                         </div>
-                      )}
-                      <CardTitle>{question.text}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p>
-                        إجابتك:{" "}
-                        <span className="font-bold">
-                          {userAnswer || "لم تجب"}{" "}
-                        </span>
-                      </p>
-                      <p>
-                        الإجابة الصحيحة:{" "}
-                        <span className="font-bold">
-                          {question.correctAnswer}{" "}
-                        </span>
-                      </p>
-                      <Badge
-                        className={`${
-                          isCorrect
-                            ? "bg-green-500 dark:bg-green-600 hover:bg-green-600 hover:opacity-90"
-                            : "bg-red-500 dark:bg-red-600 hover:bg-red-600 hover:opacity-90"
-                        } text-white transition-all`}
-                        variant={"default"}
-                      >
-                        <p>{isCorrect ? "إجابة صحيحة!" : "إجابة خاطئة"}</p>
-                      </Badge>
-                    </CardContent>
-                  </Card>
+                      </Card>
+                    )}
+                    <Card className="mb-4">
+                      <CardHeader>
+                        <Badge dir="rtl" className="w-fit">
+                          سؤال رقم {question.id}
+                        </Badge>
+                        {question?.imageURL && (
+                          <div className="my-3">
+                            <Image
+                              src={question?.imageURL || "/placeholder.svg"}
+                              alt="Question image"
+                              width={200}
+                              height={200}
+                              loading="lazy"
+                              className="rounded-xl bg-muted border w-72 h-full object-contain mb-2"
+                            />
+                          </div>
+                        )}
+                        <CardTitle>{question.text}</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p>
+                          إجابتك:{" "}
+                          <span className="font-bold">
+                            {userAnswer || "لم تجب"}{" "}
+                          </span>
+                        </p>
+                        <p>
+                          الإجابة الصحيحة:{" "}
+                          <span className="font-bold">
+                            {question.correctAnswer}{" "}
+                          </span>
+                        </p>
+                        <Badge
+                          className={`${
+                            isCorrect
+                              ? "bg-green-500 dark:bg-green-600 hover:bg-green-600 hover:opacity-90"
+                              : "bg-red-500 dark:bg-red-600 hover:bg-red-600 hover:opacity-90"
+                          } text-white transition-all`}
+                          variant={"default"}
+                        >
+                          <p>{isCorrect ? "إجابة صحيحة!" : "إجابة خاطئة"}</p>
+                        </Badge>
+                      </CardContent>
+                    </Card>
+                  </div>
                 );
               }
               return null;
@@ -425,12 +490,12 @@ export default function Component() {
               rel="noopener noreferrer"
             >
               <span className="text-black dark:text-white underline cursor-pointer">
-                قروب تيليجرام احياء 2  ثاني ثانوي أ. عبدالخالق جبره
+                قروب تيليجرام احياء 2 ثاني ثانوي أ. عبدالخالق جبره
               </span>
             </a>{" "}
             <br />
-            تم جمع الاسئلة بواسطة الذكاء الاصطناعي وأيضا الإجابات الصحيحة 
-            فربما تحتمل نسبة خطأ! 
+            تم جمع الاسئلة بواسطة الذكاء الاصطناعي وأيضا الإجابات الصحيحة فربما
+            تحتمل نسبة خطأ!
           </p>
           <Separator className="my-4" />
           <p className="text-muted-foreground text-sm text-center">
@@ -440,7 +505,7 @@ export default function Component() {
           </p>
         </motion.div>
       </AnimatePresence>
-      <div className="border-t w-full fixed bottom-0 left-0 right-0 bg-background/70 backdrop-blur-md">
+      <div className="border-t w-full fixed z-50 -bottom-1 left-0 right-0 bg-background/70 backdrop-blur-md">
         <AnimatePresence mode="wait">
           <motion.div
             transition={{ duration: 0.5 }}
