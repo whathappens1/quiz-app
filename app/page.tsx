@@ -10,37 +10,49 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { Question, questions } from "@/lib/questions";
+import { questions } from "@/lib/questions";
 import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Github } from "lucide-react";
 
 export default function Component() {
-  // Initialize state from localStorage if available
-  const [showResults, setShowResults] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return JSON.parse(localStorage.getItem('quizShowResults') || 'false');
+  // Add state to track if we're on client side
+  const [isClient, setIsClient] = useState(false);
+
+  // Set isClient to true once component mounts
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Initialize state with undefined first, then update from localStorage
+  const [showResults, setShowResults] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("quizShowResults");
+      return saved ? JSON.parse(saved) : false;
     }
     return false;
   });
-  const [mustComplete] = useState(false);
-  const [correctAnswers, setCorrectAnswers] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return JSON.parse(localStorage.getItem('quizCorrectAnswers') || '0');
-    }
-    return 0;
-  });
-  const [incorrectAnswers, setIncorrectAnswers] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return JSON.parse(localStorage.getItem('quizIncorrectAnswers') || '0');
+
+  const [correctAnswers, setCorrectAnswers] = useState<number>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("quizCorrectAnswers");
+      return saved ? JSON.parse(saved) : 0;
     }
     return 0;
   });
 
-  // Get saved answers from localStorage
-  const savedAnswers = typeof window !== 'undefined' 
-    ? JSON.parse(localStorage.getItem('quizAnswers') || '{}')
-    : {};
+  const [incorrectAnswers, setIncorrectAnswers] = useState<number>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("quizIncorrectAnswers");
+      return saved ? JSON.parse(saved) : 0;
+    }
+    return 0;
+  });
+
+  // Get saved answers array for calculations
+  const savedAnswers = isClient
+    ? Object.values(JSON.parse(localStorage.getItem("quizAnswers") || "{}")).filter(answer => answer !== "")
+    : [];
 
   const {
     handleSubmit,
@@ -48,30 +60,61 @@ export default function Component() {
     watch,
     setValue,
   } = useForm({
-    defaultValues: {
-      ...Object.fromEntries(questions.map((q) => [`question-${q.id}`, ""])),
-      ...savedAnswers // Merge saved answers with default empty values
-    },
+    defaultValues: isClient
+      ? {
+          ...Object.fromEntries(questions.map((q) => [`question-${q.id}`, ""])),
+          ...JSON.parse(localStorage.getItem("quizAnswers") || "{}"), // Load saved answers
+        }
+      : {},
   });
+
+  // Load saved answers on component mount
+  useEffect(() => {
+    if (isClient) {
+      const savedAnswers = JSON.parse(
+        localStorage.getItem("quizAnswers") || "{}"
+      );
+      Object.entries(savedAnswers).forEach(([key, value]) => {
+        setValue(key, value);
+      });
+    }
+  }, [isClient, setValue]);
 
   // Save answers whenever they change
   const allAnswers = questions.map((q) => watch(`question-${q.id}`));
-  
-  // Save state to localStorage whenever it changes
+
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (isClient) {
       const answers = Object.fromEntries(
         questions.map((q) => [`question-${q.id}`, watch(`question-${q.id}`)])
       );
-      localStorage.setItem('quizAnswers', JSON.stringify(answers));
-      localStorage.setItem('quizShowResults', JSON.stringify(showResults));
-      localStorage.setItem('quizCorrectAnswers', JSON.stringify(correctAnswers));
-      localStorage.setItem('quizIncorrectAnswers', JSON.stringify(incorrectAnswers));
+      // Only save if there are actual answers
+      if (Object.values(answers).some((value) => value !== "")) {
+        localStorage.setItem("quizAnswers", JSON.stringify(answers));
+      }
     }
-  }, [allAnswers, showResults, correctAnswers, incorrectAnswers, watch]);
+  }, [allAnswers, isClient, watch]);
+
+  // Save other state to localStorage
+  useEffect(() => {
+    if (isClient) {
+      localStorage.setItem("quizShowResults", JSON.stringify(showResults));
+      localStorage.setItem(
+        "quizCorrectAnswers",
+        JSON.stringify(correctAnswers)
+      );
+      localStorage.setItem(
+        "quizIncorrectAnswers",
+        JSON.stringify(incorrectAnswers)
+      );
+    }
+  }, [showResults, correctAnswers, incorrectAnswers, isClient]);
+
+  const [mustComplete] = useState(false);
 
   // Remove unused mustComplete state
   const isAllQuestionsAnswered = allAnswers.every((answer) => answer !== "");
+  console.log(questions)
 
   const onSubmit = () => {
     if (mustComplete) {
@@ -80,7 +123,7 @@ export default function Component() {
         let incorrect = 0;
         questions.forEach((question) => {
           const userAnswer = watch(`question-${question.id}`);
-          if (userAnswer === question.correctAnswer) {
+          if (userAnswer === question.correctAnswer && userAnswer !== "") {
             correct++;
           } else {
             incorrect++;
@@ -89,6 +132,12 @@ export default function Component() {
         setCorrectAnswers(correct);
         setIncorrectAnswers(incorrect);
         setShowResults(true);
+
+        // Save answers immediately on submit
+        const answers = Object.fromEntries(
+          questions.map((q) => [`question-${q.id}`, watch(`question-${q.id}`)])
+        );
+        localStorage.setItem("quizAnswers", JSON.stringify(answers));
       } else {
         toast.error("الرجاء الإجابة على جميع الأسئلة قبل الإرسال");
       }
@@ -97,9 +146,9 @@ export default function Component() {
       let incorrect = 0;
       questions.forEach((question) => {
         const userAnswer = watch(`question-${question.id}`);
-        if (userAnswer === question.correctAnswer) {
+        if (userAnswer === question.correctAnswer && userAnswer !== "") {
           correct++;
-        } else if (userAnswer !== "") {
+        } else if ( userAnswer !== "") {
           incorrect++;
         }
       });
@@ -119,17 +168,22 @@ export default function Component() {
     hidden: { opacity: 0, y: 50 },
   };
 
-  // Update reset functionality to clear localStorage
+  // Update reset functionality
   const resetQuiz = () => {
     setShowResults(false);
     setCorrectAnswers(0);
     setIncorrectAnswers(0);
     questions.forEach((q) => setValue(`question-${q.id}`, ""));
-    localStorage.removeItem('quizAnswers');
-    localStorage.removeItem('quizShowResults');
-    localStorage.removeItem('quizCorrectAnswers');
-    localStorage.removeItem('quizIncorrectAnswers');
+    localStorage.removeItem("quizAnswers");
+    localStorage.removeItem("quizShowResults");
+    localStorage.removeItem("quizCorrectAnswers");
+    localStorage.removeItem("quizIncorrectAnswers");
   };
+
+  // Render loading state or null while client-side code is hydrating
+  if (!isClient) {
+    return null;
+  }
 
   return (
     <div
@@ -142,13 +196,13 @@ export default function Component() {
         transition={{ duration: 0.5 }}
         className="text-3xl font-bold text-center mb-2 sm:flex-row flex flex-col  items-center justify-center gap-2"
       >
-        أختبار علم البيئة
+        أختبار أحياء
         <div className="flex items-center justify-center gap-2">
           <Badge variant="default" className="text-base">
-            صف أول ثانوي
+            صف ثاني ثانوي
           </Badge>
           <Badge variant="default" className="text-base">
-            محاكي نهائي
+            محاكي 
           </Badge>
         </div>
       </motion.h1>
@@ -268,24 +322,37 @@ export default function Component() {
                 <CardTitle>ملخص النتائج</CardTitle>
               </CardHeader>
               <CardContent>
-                <Badge
-                  className={`bg-green-500 dark:bg-green-600  hover:bg-green-600 hover:opacity-90 text-white`}
-                  variant={"default"}
-                >
-                  <p>الإجابات الصحيحة: {correctAnswers}</p>
-                </Badge>
-                <br />
-                <Badge
-                  className={`bg-red-500 dark:bg-red-600 hover:bg-red-600 hover:opacity-90 text-white`}
-                  variant={"default"}
-                >
-                  <p>الإجابات الخاطئة: {incorrectAnswers}</p>
-                </Badge>
+                <div className="flex items-center flex-wrap gap-2 ">
+                  {" "}
+                  <Badge
+                    className={`bg-green-500 dark:bg-green-600 hover:bg-green-600 hover:opacity-90 text-white transition-all`}
+                    variant={"default"}
+                    dir="rtl"
+                  >
+                    <p>
+                      الإجابات الصحيحة: {savedAnswers.length}/{correctAnswers}
+                    </p>
+                  </Badge>
+                  <Badge
+                    className={`bg-red-500 dark:bg-red-600 hover:bg-red-600 hover:opacity-90 text-white transition-all`}
+                    variant={"default"}
+                    dir="rtl"
+                  >
+                    <p>
+                      الإجابات الخاطئة: {savedAnswers.length}/{incorrectAnswers}
+                    </p>
+                  </Badge>
+                  <Badge variant={"default"} dir="rtl">
+                    <p>
+                      الأسئلة المتبقية: {questions.length}/
+                      {questions.length - savedAnswers.length}
+                    </p>
+                  </Badge>
+                </div>
                 <p>
                   النسبة المئوية للإجابات الصحيحة:{" "}
                   <span className="font-bold">
-                    {(correctAnswers / correctAnswers + incorrectAnswers) * 100}
-                    %
+                    {((correctAnswers / savedAnswers.length) * 100).toFixed(2)}%
                   </span>
                 </p>
               </CardContent>
@@ -332,7 +399,7 @@ export default function Component() {
                           isCorrect
                             ? "bg-green-500 dark:bg-green-600 hover:bg-green-600 hover:opacity-90"
                             : "bg-red-500 dark:bg-red-600 hover:bg-red-600 hover:opacity-90"
-                        } text-white`}
+                        } text-white transition-all`}
                         variant={"default"}
                       >
                         <p>{isCorrect ? "إجابة صحيحة!" : "إجابة خاطئة"}</p>
@@ -341,6 +408,7 @@ export default function Component() {
                   </Card>
                 );
               }
+              return null;
             })}
           </motion.div>
         )}
@@ -349,19 +417,20 @@ export default function Component() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-sm text-center text-muted-foreground">
+          <p className="sm:text-sm text-xs text-center text-muted-foreground">
             ملاحظة: جميع الاسئلة من{" "}
             <a
-              href="https://t.me/+qTLPMOCOk54wODVk"
+              href="https://t.me/+4y8IfXOZvpwzY2Q8"
               target="_blank"
               rel="noopener noreferrer"
             >
               <span className="text-black dark:text-white underline cursor-pointer">
-                قروب تيليجرام المادة للمعلم عبدالخالق جبر
+                قروب تيليجرام احياء 2  ثاني ثانوي أ. عبدالخالق جبره
               </span>
             </a>{" "}
-            تم جمع الاسئلة بواسطة الذكاء الاصطناعي وجميع الإجابات الصحيحة في
-            الاختبار قد تحتمل نسبة خطأ!
+            <br />
+            تم جمع الاسئلة بواسطة الذكاء الاصطناعي وأيضا الإجابات الصحيحة 
+            فربما تحتمل نسبة خطأ! 
           </p>
           <Separator className="my-4" />
           <p className="text-muted-foreground text-sm text-center">
@@ -392,10 +461,7 @@ export default function Component() {
                     : "إرسال الإجابات"}
                 </Button>
               ) : (
-                <Button
-                  onClick={resetQuiz}
-                  className="w-full"
-                >
+                <Button onClick={resetQuiz} className="w-full">
                   إعادة الاختبار
                 </Button>
               )}

@@ -36,12 +36,12 @@ const RadioGroupItem = React.forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        "relative aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+        "relative aspect-square h-5 w-5 rounded-full border border-input text-primary focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}
     >
-      <RadioGroupPrimitive.Indicator asChild>
+      <RadioGroupPrimitive.Indicator className="" asChild>
         <motion.div 
           className="flex items-center  justify-center"
           initial={{ scale: 0, opacity: 0 }}
@@ -58,7 +58,7 @@ const RadioGroupItem = React.forwardRef<
             scale: 0, 
             opacity: 0,
             transition: {
-              duration: 0.2
+              duration: 0.1
             }
           }}
         >
