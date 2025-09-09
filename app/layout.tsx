@@ -2,19 +2,26 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Baloo_Bhaijaan_2 } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import ScrollToTop from "./components/scroll-to-top";
+import ScrollToTop from "./components/layouts/scroll-to-top";
 import { Analytics } from "@vercel/analytics/react"
 import NextTopLoader from "nextjs-toploader";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import Navbar from "./components/layouts/navbar";
+import Footer from "./components/layouts/footer";
 
 export const metadata: Metadata = {
-  title: "أختبار أحياء الفصل الأول - محاكي",
-  description: "by tamim al-sahali dev",
+  title: {
+    template: '%s | منصة نواة', 
+    default: 'للاختبارات المحاكية | منصة نواة', 
+  },
+  description: 'من تميم السهلي',
 };
+
 const font = Baloo_Bhaijaan_2({
   subsets: ["arabic"],
   weight: ["400", "500", "700"],
 });
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -22,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={`${font.className} antialiased`}>
+      <body className={`${font.className} antialiased min-h-screen flex flex-col`}>
         <ThemeProvider attribute="class" defaultTheme="system">
           <NextTopLoader
             color={"#3671f3"}
@@ -35,7 +42,11 @@ export default function RootLayout({
             zIndex={1600}
           />
           <Toaster position="bottom-right" />
-          {children}
+          <Navbar />
+          <div className="flex-1">
+            {children}
+          </div>
+          <Footer />
           <Analytics/>
           <ScrollToTop />
         </ThemeProvider>

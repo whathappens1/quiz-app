@@ -1,16 +1,4 @@
-export type Question = {
-  id: number;
-  text: string;
-  options?: string[];
-  correctAnswer?: string;
-  imageURL?: string;
-  type: string;
-  intro?: {
-    text: string;
-    imageURL?: string;
-    type: string;
-  }
-};
+import { Question } from "./utils";
 
 export const questions: Question[] = [
   {
