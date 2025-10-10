@@ -28,7 +28,7 @@ function QuestionCard({
   errors,
   setValue,
   watch,
-  WithoutIntro = false
+  WithoutIntro = false,
 }: QuestionCardProps) {
   if (isResult == true) {
     return (
@@ -38,7 +38,9 @@ function QuestionCard({
             <div
               className="absolute inset-0 opacity-50 backdrop-blur-sm"
               style={{
-                backgroundImage: `url(${question.intro?.imageURL || "/placeholder.svg"})`,
+                backgroundImage: `url(${
+                  question.intro?.imageURL || "/placeholder.svg"
+                })`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -64,6 +66,7 @@ function QuestionCard({
             <Badge dir="rtl" className="w-fit">
               سؤال رقم {question.id}
             </Badge>
+
             {question?.imageURL && (
               <div className="my-3">
                 <Image
@@ -80,11 +83,11 @@ function QuestionCard({
           </CardHeader>
           <CardContent>
             <p>
-              إجابتك: {" "}
+              إجابتك:{" "}
               <span className="font-bold">{userAnswer || "لم تجب"} </span>
             </p>
             <p>
-              الإجابة الصحيحة: {" "}
+              الإجابة الصحيحة:{" "}
               <span className="font-bold">{question.correctAnswer} </span>
             </p>
             <Badge
@@ -109,7 +112,9 @@ function QuestionCard({
             <div
               className="absolute inset-0 opacity-50 backdrop-blur-sm"
               style={{
-                backgroundImage: `url(${question.intro?.imageURL || "/placeholder.svg"})`,
+                backgroundImage: `url(${
+                  question.intro?.imageURL || "/placeholder.svg"
+                })`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -133,10 +138,20 @@ function QuestionCard({
         <Card className="mb-6 relative z-10 overflow-hidden">
           <div className={`relative z-10`}>
             <CardHeader className="">
-              <Badge dir="rtl" className="w-fit">
-                سؤال رقم {question.id}
-              </Badge>
-
+              <div className="flex items-center justify-between gap-2">
+                <Badge dir="rtl" className="w-fit">
+                  سؤال رقم {question.id}
+                </Badge>
+                <Badge
+                  variant={
+                    question.type == "question" ? "default" : "secondary"
+                  }
+                  dir="rtl"
+                  className="w-fit"
+                >
+                  سؤال {question.type == "question" ? "من متعدد" : "مقالي"}
+                </Badge>
+              </div>
               {question?.imageURL && (
                 <div className="my-3">
                   <Image
@@ -152,35 +167,49 @@ function QuestionCard({
 
               <CardTitle
                 dir="rtl"
-                className="flex items-center justify-start gap-2"
+                className="flex items-center justify-start gap-2 pt-1 text-wrap w-full"
               >
                 {question.text}
               </CardTitle>
             </CardHeader>
 
             <CardContent>
-              <RadioGroup
-                dir="rtl"
-                defaultValue=""
-                onValueChange={(value) => {
-                  if (setValue) {
-                    setValue(`question-${question.id}`, String(value));
-                  }
-                }}
-                value={watch ? String(watch(`question-${question.id}`) || "") : ""}
-              >
-                {question.options?.map((option, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <RadioGroupItem
-                      value={option}
-                      id={`q${question.id}-${index}`}
-                    />
-                    <Label htmlFor={`q${question.id}-${index}`}>{option}</Label>
-                  </div>
-                ))}
-              </RadioGroup>
-              {errors && errors[`question-${question.id}`] && (
-                <p className="text-red-500 mt-2">هذا الحقل مطلوب</p>
+              {question.type == "question" ? (
+                <>
+                  <RadioGroup
+                    dir="rtl"
+                    defaultValue=""
+                    onValueChange={(value) => {
+                      if (setValue) {
+                        setValue(`question-${question.id}`, String(value));
+                      }
+                    }}
+                    value={
+                      watch
+                        ? String(watch(`question-${question.id}`) || "")
+                        : ""
+                    }
+                  >
+                    {question.options?.map((option, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <RadioGroupItem
+                          value={option}
+                          id={`q${question.id}-${index}`}
+                        />
+                        <Label htmlFor={`q${question.id}-${index}`}>
+                          {option}
+                        </Label>
+                      </div>
+                    ))}
+                  </RadioGroup>
+                  {errors && errors[`question-${question.id}`] && (
+                    <p className="text-red-500 mt-2">هذا الحقل مطلوب</p>
+                  )}
+                </>
+              ) : (
+                <div>
+                  <p>{question.correctAnswer}</p>
+                </div>
               )}
             </CardContent>
           </div>

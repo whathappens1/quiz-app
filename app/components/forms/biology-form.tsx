@@ -25,7 +25,7 @@ export default function BiologyForm() {
   // Initialize state with undefined first, then update from localStorage
   const [showResults, setShowResults] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("quizShowResults");
+      const saved = localStorage.getItem("biologyQuizShowResults");
       return saved ? JSON.parse(saved) : false;
     }
     return false;
@@ -33,7 +33,7 @@ export default function BiologyForm() {
 
   const [correctAnswers, setCorrectAnswers] = useState<number>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("quizCorrectAnswers");
+      const saved = localStorage.getItem("biologyQuizCorrectAnswers");
       return saved ? JSON.parse(saved) : 0;
     }
     return 0;
@@ -41,7 +41,7 @@ export default function BiologyForm() {
 
   const [incorrectAnswers, setIncorrectAnswers] = useState<number>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("quizIncorrectAnswers");
+      const saved = localStorage.getItem("biologyQuizIncorrectAnswers");
       return saved ? JSON.parse(saved) : 0;
     }
     return 0;
@@ -50,7 +50,7 @@ export default function BiologyForm() {
   // Get saved answers array for calculations
   const savedAnswers = isClient
     ? Object.values(
-        JSON.parse(localStorage.getItem("quizAnswers") || "{}")
+        JSON.parse(localStorage.getItem("biologyQuizAnswers") || "{}")
       ).filter((answer) => answer !== "")
     : [];
 
@@ -63,7 +63,7 @@ export default function BiologyForm() {
     defaultValues: isClient
       ? {
           ...Object.fromEntries(questions.map((q) => [`question-${q.id}`, ""])),
-          ...JSON.parse(localStorage.getItem("quizAnswers") || "{}"), // Load saved answers
+          ...JSON.parse(localStorage.getItem("biologyQuizAnswers") || "{}"), // Load saved answers
         }
       : {},
   });
@@ -72,7 +72,7 @@ export default function BiologyForm() {
   useEffect(() => {
     if (isClient) {
       const savedAnswers = JSON.parse(
-        localStorage.getItem("quizAnswers") || "{}"
+        localStorage.getItem("biologyQuizAnswers") || "{}"
       );
       Object.entries(savedAnswers).forEach(([key, value]) => {
         setValue(key, value);
@@ -90,7 +90,7 @@ export default function BiologyForm() {
       );
       // Only save if there are actual answers
       if (Object.values(answers).some((value) => value !== "")) {
-        localStorage.setItem("quizAnswers", JSON.stringify(answers));
+        localStorage.setItem("biologyQuizAnswers", JSON.stringify(answers));
       }
     }
   }, [allAnswers, isClient, watch]);
@@ -98,13 +98,13 @@ export default function BiologyForm() {
   // Save other state to localStorage
   useEffect(() => {
     if (isClient) {
-      localStorage.setItem("quizShowResults", JSON.stringify(showResults));
+      localStorage.setItem("biologyQuizShowResults", JSON.stringify(showResults));
       localStorage.setItem(
-        "quizCorrectAnswers",
+        "biologyQuizCorrectAnswers",
         JSON.stringify(correctAnswers)
       );
       localStorage.setItem(
-        "quizIncorrectAnswers",
+        "biologyQuizIncorrectAnswers",
         JSON.stringify(incorrectAnswers)
       );
     }
@@ -136,7 +136,7 @@ export default function BiologyForm() {
         const answers = Object.fromEntries(
           questions.map((q) => [`question-${q.id}`, watch(`question-${q.id}`)])
         );
-        localStorage.setItem("quizAnswers", JSON.stringify(answers));
+        localStorage.setItem("biologyQuizAnswers", JSON.stringify(answers));
       } else {
         toast.error("الرجاء الإجابة على جميع الأسئلة قبل الإرسال");
       }
@@ -198,15 +198,15 @@ export default function BiologyForm() {
   }, [isRandomOrder]);
 
   // Update reset functionality
-  const resetQuiz = () => {
+  const resetbiologyQuiz = () => {
     setShowResults(false);
     setCorrectAnswers(0);
     setIncorrectAnswers(0);
     questions.forEach((q) => setValue(`question-${q.id}`, ""));
-    localStorage.removeItem("quizAnswers");
-    localStorage.removeItem("quizShowResults");
-    localStorage.removeItem("quizCorrectAnswers");
-    localStorage.removeItem("quizIncorrectAnswers");
+    localStorage.removeItem("biologyQuizAnswers");
+    localStorage.removeItem("biologyQuizShowResults");
+    localStorage.removeItem("biologyQuizCorrectAnswers");
+    localStorage.removeItem("biologyQuizIncorrectAnswers");
   };
 
   // Render loading state or null while client-side code is hydrating
@@ -225,7 +225,7 @@ export default function BiologyForm() {
         transition={{ duration: 0.5 }}
         className="text-3xl font-bold text-center mb-2 sm:flex-row flex flex-col  items-center justify-center gap-2"
       >
-        أختبار أحياء الفصل الأول
+        أختبار أحياء الفترة الاولى
         <div className="flex items-center justify-center gap-2">
           <Badge variant="default" className="text-base">
             صف ثاني ثانوي
@@ -261,7 +261,7 @@ export default function BiologyForm() {
           </Button>
           <ModeToggle />
           <a
-            href="https://github.com/whathappens1/quiz-app"
+            href="https://github.com/whathappens1/biologyQuiz-app"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -275,7 +275,7 @@ export default function BiologyForm() {
       <AnimatePresence mode="wait">
         {!showResults ? (
           <motion.form
-            key="quiz-form"
+            key="biologyQuiz-form"
             variants={formVariants}
             initial="hidden"
             animate="visible"
@@ -413,7 +413,7 @@ export default function BiologyForm() {
                     : "إرسال الإجابات"}
                 </Button>
               ) : (
-                <Button onClick={resetQuiz} className="w-full">
+                <Button onClick={resetbiologyQuiz} className="w-full">
                   إعادة الاختبار
                 </Button>
               )}

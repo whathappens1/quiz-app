@@ -46,7 +46,7 @@ export default function MultiplicationForm() {
   // Initialize state with undefined first, then update from localStorage
   const [showResults, setShowResults] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("quizShowResults");
+      const saved = localStorage.getItem("mathQuizShowResults");
       return saved ? JSON.parse(saved) : false;
     }
     return false;
@@ -54,7 +54,7 @@ export default function MultiplicationForm() {
 
   const [correctAnswers, setCorrectAnswers] = useState<number>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("quizCorrectAnswers");
+      const saved = localStorage.getItem("mathQuizCorrectAnswers");
       return saved ? JSON.parse(saved) : 0;
     }
     return 0;
@@ -62,7 +62,7 @@ export default function MultiplicationForm() {
 
   const [incorrectAnswers, setIncorrectAnswers] = useState<number>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("quizIncorrectAnswers");
+      const saved = localStorage.getItem("mathQuizIncorrectAnswers");
       return saved ? JSON.parse(saved) : 0;
     }
     return 0;
@@ -71,7 +71,7 @@ export default function MultiplicationForm() {
   // Get saved answers array for calculations
   const savedAnswers = isClient
     ? Object.values(
-        JSON.parse(localStorage.getItem("quizAnswers") || "{}")
+        JSON.parse(localStorage.getItem("mathQuizAnswers") || "{}")
       ).filter((answer) => answer !== "")
     : [];
 
@@ -84,7 +84,7 @@ export default function MultiplicationForm() {
     defaultValues: isClient
       ? {
           ...Object.fromEntries(questions.map((q) => [`question-${q.id}`, ""])),
-          ...JSON.parse(localStorage.getItem("quizAnswers") || "{}"), // Load saved answers
+          ...JSON.parse(localStorage.getItem("mathQuizAnswers") || "{}"), // Load saved answers
         }
       : {},
   });
@@ -93,7 +93,7 @@ export default function MultiplicationForm() {
   useEffect(() => {
     if (isClient) {
       const savedAnswers = JSON.parse(
-        localStorage.getItem("quizAnswers") || "{}"
+        localStorage.getItem("mathQuizAnswers") || "{}"
       );
       Object.entries(savedAnswers).forEach(([key, value]) => {
         setValue(key, value);
@@ -111,7 +111,7 @@ export default function MultiplicationForm() {
       );
       // Only save if there are actual answers
       if (Object.values(answers).some((value) => value !== "")) {
-        localStorage.setItem("quizAnswers", JSON.stringify(answers));
+        localStorage.setItem("mathQuizAnswers", JSON.stringify(answers));
       }
     }
   }, [allAnswers, isClient, watch]);
@@ -119,13 +119,13 @@ export default function MultiplicationForm() {
   // Save other state to localStorage
   useEffect(() => {
     if (isClient) {
-      localStorage.setItem("quizShowResults", JSON.stringify(showResults));
+      localStorage.setItem("mathQuizShowResults", JSON.stringify(showResults));
       localStorage.setItem(
-        "quizCorrectAnswers",
+        "mathQuizCorrectAnswers",
         JSON.stringify(correctAnswers)
       );
       localStorage.setItem(
-        "quizIncorrectAnswers",
+        "mathQuizIncorrectAnswers",
         JSON.stringify(incorrectAnswers)
       );
     }
@@ -205,7 +205,7 @@ export default function MultiplicationForm() {
         const answers = Object.fromEntries(
           questions.map((q) => [`question-${q.id}`, watch(`question-${q.id}`)])
         );
-        localStorage.setItem("quizAnswers", JSON.stringify(answers));
+        localStorage.setItem("mathQuizAnswers", JSON.stringify(answers));
       } else {
         toast.error("الرجاء الإجابة على جميع الأسئلة قبل الإرسال");
       }
@@ -237,15 +237,15 @@ export default function MultiplicationForm() {
   };
 
   // Update reset functionality
-  const resetQuiz = () => {
+  const resetmathQuiz = () => {
     setShowResults(false);
     setCorrectAnswers(0);
     setIncorrectAnswers(0);
     questions.forEach((q) => setValue(`question-${q.id}`, ""));
-    localStorage.removeItem("quizAnswers");
-    localStorage.removeItem("quizShowResults");
-    localStorage.removeItem("quizCorrectAnswers");
-    localStorage.removeItem("quizIncorrectAnswers");
+    localStorage.removeItem("mathQuizAnswers");
+    localStorage.removeItem("mathQuizShowResults");
+    localStorage.removeItem("mathQuizCorrectAnswers");
+    localStorage.removeItem("mathQuizIncorrectAnswers");
   };
 
   // Render loading state or null while client-side code is hydrating
@@ -382,7 +382,7 @@ export default function MultiplicationForm() {
           </Button>
           <ModeToggle />
           <a
-            href="https://github.com/whathappens1/quiz-app"
+            href="https://github.com/whathappens1/mathQuiz-app"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -397,7 +397,7 @@ export default function MultiplicationForm() {
       <AnimatePresence mode="wait">
         {!showResults ? (
           <motion.form
-            key="quiz-form"
+            key="mathQuiz-form"
             variants={formVariants}
             initial="hidden"
             animate="visible"
@@ -538,7 +538,7 @@ export default function MultiplicationForm() {
                     : "إرسال الإجابات"}
                 </Button>
               ) : (
-                <Button onClick={resetQuiz} className="w-full">
+                <Button onClick={resetmathQuiz} className="w-full">
                   إعادة الاختبار
                 </Button>
               )}
