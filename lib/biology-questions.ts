@@ -1,6 +1,7 @@
 import { Question } from "./utils";
 
-export const questions: Question[] = [
+export const questions: Question[] = (function(){
+  const q: Question[] = [
 
   // ========== الأسماك ==========
   {
@@ -194,7 +195,7 @@ export const questions: Question[] = [
     id: 23,
     text: "قشور سمكة السردين من القشور ؟",
     options: ["الصفائحية", "القرصية", "المعينية اللامعة", "المشطية"],
-    correctAnswer: "المعينية اللامعة",
+    correctAnswer: "القرصية",
     type: "question",
   },
   {
@@ -214,7 +215,7 @@ export const questions: Question[] = [
   {
     id: 26,
     text: "أي الأسماك التالية يحوي مثانة العوم ؟",
-    options: ["الفرش", "الهامور", "الجلكي", "الرأي"],
+    options: ["القرش", "الهامور", "الجلكي", "الرأي"],
     correctAnswer: "الهامور",
     type: "question",
   },
@@ -230,7 +231,7 @@ export const questions: Question[] = [
     id: 122,
     text: "في الشكل 1 أعلاه تشير الصورة فوق الحرف B على ...",
     options: ["قشور مشطية", "قشور قرصية", "قشور معينية لامعة", "قشور صفائحية"],
-    correctAnswer: "قشور معينية لامعة",
+    correctAnswer: "قشور قرصية",
     imageURL: "/assets/photos/photo_107@12-09-2025_13-49-00.jpg",
     type: "question"
   },
@@ -238,7 +239,7 @@ export const questions: Question[] = [
     id: 123,
     text: "في الشكل 2 أعلاه يمثل الرقم 3 ...",
     options: ["الزعانف الظهرية", "الزعانف الشرجية", "الزعانف الحوضية", "الزعانف الصدرية"],
-    correctAnswer: "الزعانف الحوضية",
+    correctAnswer: "الزعانف الصدرية",
     imageURL: "/assets/photos/photo_108@12-09-2025_13-58-52.jpg",
     type: "question"
   },
@@ -246,15 +247,15 @@ export const questions: Question[] = [
     id: 124,
     text: "من الشكل 2 أعلاه .. الأرقام التي تشير إلى الزعانف المزدوجة ..",
     options: ["4 ، 5", "1 ، 4", "2 ، 3", "4 ، 1"],
-    correctAnswer: "1 ، 4",
+    correctAnswer: "2 ، 3",
     imageURL: "/assets/photos/photo_108@12-09-2025_13-58-52.jpg",
     type: "question"
   },
   {
     id: 125,
     text: "يمثل الشكل 3 أعلاه ....",
-    options: ["تكاثر لا جنسي", "اخصاب داخلي والجنين داخل البيضة", "اخصاب داخلي والجنين داخل الأنثى", "احصاب خارجي"],
-    correctAnswer: "اخصاب داخلي والجنين داخل الأنثى",
+    options: ["تكاثر لا جنسي", "اخصاب داخلي والجنين داخل البيضة", "اخصاب داخلي والجنين داخل الأنثى", "اخصاب خارجي"],
+    correctAnswer: "اخصاب خارجي",
     imageURL: "/assets/photos/photo_109@12-09-2025_14-07-31.jpg",
     type: "question"
   },
@@ -468,7 +469,7 @@ export const questions: Question[] = [
       "الإمساك بالفرائس الطائرة",
       "التنفس أثناء البيات الشتوي"
     ],
-    correctAnswer: "حماية عيون البرمائيات من الجفاف",
+    correctAnswer:  "الإمساك بالفرائس الطائرة",
     imageURL: "/assets/photos/photo_112@19-09-2025_21-54-06.jpg",
     type: "question"
   },
@@ -481,7 +482,7 @@ export const questions: Question[] = [
       "التنفس أثناء البيات الشتوي",
       "إمساك الطعام"
     ],
-    correctAnswer: "تكبير ترددات الأصوات",
+    correctAnswer:  "التنفس أثناء البيات الشتوي",
     imageURL: "/assets/photos/photo_112@19-09-2025_21-54-06.jpg",
     type: "question"
   },
@@ -489,7 +490,7 @@ export const questions: Question[] = [
     id: 129,
     text: "في الشكل 2 أعلاه يمثل الجزء المشار إلية بالرقم 1",
     options: ["غشاء الطبلة", "الغدد السمية", "نتوءات الجلد", "فتحات الشم"],
-    correctAnswer: "غشاء الطبلة",
+    correctAnswer: "الغدد السمية",
     imageURL: "/assets/photos/photo_113@19-09-2025_22-08-50.jpg",
     type: "question"
   },
@@ -497,15 +498,15 @@ export const questions: Question[] = [
     id: 130,
     text: "في الشكل2 أعلاه يمثل الجزء المشار إليه بالرقم 2",
     options: ["فتحات أنفية", "غشاء الطبلة", "الغشاء الرامش", "الغدد السمية"],
-    correctAnswer: "فتحات أنفية",
+    correctAnswer: "غشاء الطبلة",
     imageURL: "/assets/photos/photo_113@19-09-2025_22-08-50.jpg",
     type: "question"
   },
   {
     id: 48,
     text: "المادة الاخراجية في يرقات البرمائيات",
-    options: ["الأمونياء", "اليوريا", "حمض البوليك", "النشادر"],
-    correctAnswer: "الأمونياء",
+    options: ["الأمونيا", "اليوريا", "حمض البوليك", "النشادر"],
+    correctAnswer: "الأمونيا",
     type: "question",
   },
   {
@@ -586,18 +587,6 @@ export const questions: Question[] = [
     text: "علل دخول بعض الزواحف في بيات شتوي ؟",
     correctAnswer: "لخفض معدل الأيض وتقليل استهلاك طاقة الجسم",
     type: "info",
-  },
-  {
-    id: 60,
-    text: "أي الجمل الآتية خاطئة فيما يتعلق بتنفس الزواحف ؟",
-    options: [
-      "تستعمل معظم الزواحف الرئات لتبادل الغازات",
-      "في الشهيق تنبسط عضلات القفص الصدري",
-      "في الزفير تنبسط عضلات القفص الصدري",
-      "لرئات الزواحف مساحة سطح أكبر من رئات البرمائيات",
-    ],
-    correctAnswer: "في الزفير تنبسط عضلات القفص الصدري",
-    type: "question",
   },
   {
     id: 61,
@@ -738,7 +727,7 @@ export const questions: Question[] = [
       "في الشهيق تنبسط عضلة جدار الجسم",
       "للرئات مساحة سطح أكبر",
     ],
-    correctAnswer: "في عملية الزفير تنبسط عضلة جدار الجسم",
+    correctAnswer: "في الشهيق تنبسط عضلة جدار الجسم",
     type: "question",
   },
   {
@@ -795,7 +784,7 @@ export const questions: Question[] = [
     id: 131,
     text: "الشكل 1 أعلاه حيوان زاحف ينتمي لرتبة ...",
     options: ["الحرشفيات", "السلحفيات", "خطمية الرأس", "التمساحيات"],
-    correctAnswer: "الحرشفيات",
+    correctAnswer: "خطمية الرأس",
     imageURL: "/assets/photos/photo_115@29-09-2025_21-08-00.jpg",
     type: "question"
   },
@@ -803,7 +792,7 @@ export const questions: Question[] = [
     id: 132,
     text: "الشكل 1 أعلاه حيوان زاحف يسمى ...",
     options: ["الحرباء", "الورل", "الضب", "التواتارا"],
-    correctAnswer: "الضب",
+    correctAnswer: "التواتارا",
     imageURL: "/assets/photos/photo_115@29-09-2025_21-08-00.jpg",
     type: "question"
   },
@@ -811,7 +800,7 @@ export const questions: Question[] = [
     id: 133,
     text: "الشكل 2 أعلاه يمثل قلب حيوان زاحف .. حدد المسمى المناسب للرقم 1",
     options: ["أذين أيمن", "بطين أيمن", "أذين أيسر", "بطين أيسر"],
-    correctAnswer: "أذين أيمن",
+    correctAnswer: "أذين أيسر",
     imageURL: "/assets/photos/photo_116@29-09-2025_21-11-46.jpg",
     type: "question"
   },
@@ -819,7 +808,7 @@ export const questions: Question[] = [
     id: 134,
     text: "الشكل 2 أعلاه يمثل قلب حيوان زاحف .. حدد المسمى المناسب للرقم 2",
     options: ["بطين أيمن", "أذين أيمن", "بطين أيسر", "أذين أيسر"],
-    correctAnswer: "أذين أيسر",
+    correctAnswer: "أذين أيمن",
     imageURL: "/assets/photos/photo_116@29-09-2025_21-11-46.jpg",
     type: "question"
   },
@@ -848,7 +837,7 @@ export const questions: Question[] = [
       "يخلص الجنين من الفضلات",
       "تحمي السوائل الداخلية والجنين"
     ],
-    correctAnswer: "يسمح بدخول الأكسجين للجنين",
+    correctAnswer:  "تحمي السوائل الداخلية والجنين",
     imageURL: "/assets/photos/photo_118@29-09-2025_21-21-48.jpg",
     type: "question"
   },
@@ -861,7 +850,7 @@ export const questions: Question[] = [
       "يغذي الجنين",
       "يحمي الجنين"
     ],
-    correctAnswer: "يغذي الجنين",
+    correctAnswer:  "السماح بدخول الأكسجين للجنين",
     imageURL: "/assets/photos/photo_118@29-09-2025_21-21-48.jpg",
     type: "question"
   },
@@ -869,7 +858,7 @@ export const questions: Question[] = [
     id: 139,
     text: "في الشكل 4 أعلاه (البيضة الرهلية) أي أجزاء البيضة الذي لم يحدد برقم ؟",
     options: ["القشرة الجلدية", "الغشاء الرهلي", "الجنين", "غشاء الكريون"],
-    correctAnswer: "الجنين",
+    correctAnswer: "الغشاء الرهلي",
     imageURL: "/assets/photos/photo_118@29-09-2025_21-21-48.jpg",
     type: "question"
   },
@@ -947,7 +936,7 @@ export const questions: Question[] = [
       "كبير وعلى شكل مغرفة",
       "واسع وعريض",
     ],
-    correctAnswer: "كبير وعلى شكل مغرفة",
+    correctAnswer: "واسع وعريض",
     type: "question",
   },
   {
@@ -1084,14 +1073,14 @@ export const questions: Question[] = [
     id: 99,
     text: "مركز التكامل الأساسي في الدماغ للتحكم في الأكل والتغريد والطيران والغرائز هو ...",
     options: ["المخ", "المخيخ", "النخاع المستطيل", "القشرة المخية"],
-    correctAnswer: "المخيخ",
+    correctAnswer: "المخ",
     type: "question",
   },
   {
     id: 100,
     text: "احد الطيور التالية نقع عيونها على جانبي الرأس لترى محيط 360 درجة ...",
     options: ["الصقر", "البوم", "الحمامة", "النعامة"],
-    correctAnswer: "البوم",
+    correctAnswer: "الحمامة",
     type: "question",
   },
   {
@@ -1306,4 +1295,6 @@ export const questions: Question[] = [
     correctAnswer: "صح",
     type: "question",
   },
-];
+  ];
+  return q.map((item, idx) => ({ ...item, id: idx + 1 }));
+})();
