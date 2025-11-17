@@ -98,7 +98,10 @@ export default function BiologyForm() {
   // Save other state to localStorage
   useEffect(() => {
     if (isClient) {
-      localStorage.setItem("biologyQuizShowResults", JSON.stringify(showResults));
+      localStorage.setItem(
+        "biologyQuizShowResults",
+        JSON.stringify(showResults)
+      );
       localStorage.setItem(
         "biologyQuizCorrectAnswers",
         JSON.stringify(correctAnswers)
@@ -225,7 +228,7 @@ export default function BiologyForm() {
         transition={{ duration: 0.5 }}
         className="text-3xl font-bold text-center mb-2 sm:flex-row flex flex-col  items-center justify-center gap-2"
       >
-        أختبار أحياء الفترة الاولى
+        أختبار أحياء الفترة الثانية
         <div className="flex items-center justify-center gap-2">
           <Badge variant="default" className="text-base">
             صف ثاني ثانوي
@@ -235,6 +238,14 @@ export default function BiologyForm() {
           </Badge>
         </div>
       </motion.h1>
+      <motion.p
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-sm text-center text-muted-foreground mb-4"
+      >
+        تحديد الاختبار درس تنوع الثدييات وخصائص الثدييات
+      </motion.p>
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -290,7 +301,10 @@ export default function BiologyForm() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: Math.min(idx * 0.03, 0.3) }}
               >
-                <QuestionCard {...{ question, errors, watch, setValue }} WithoutIntro={isRandomOrder} />
+                <QuestionCard
+                  {...{ question, errors, watch, setValue }}
+                  WithoutIntro={isRandomOrder}
+                />
               </motion.div>
             ))}
           </motion.form>
