@@ -8,22 +8,24 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Github } from "lucide-react";
-import { questions as biologyQuestions } from "@/lib/biology-questions";
+import { questions_chapter_4 as biologyFourthQuestions } from "@/lib/biology-questions";
+import { questions_chapter_5 as biologyFifthQuestions } from "@/lib/biology-questions";
+
 import { questions as multiplicationQuestions } from "@/lib/multiplication-questions";
 
 export default function Component() {
   const cards = [
     {
-      title: "محاكي اختبار الأحياء الفصل الأول" ,
+      title: "محاكي اختبار الأحياء الفترة الثانية" ,
       href: "/biology-sim",
-      description: "أسئلة الأحياء مع واجهة تفاعلية ونتائج فورية.",
-      count: biologyQuestions.length,
+      description: "أسئلة الأحياء الفصل الرابع والخامس مع واجهة تفاعلية ونتائج فورية. ",
+      count: biologyFourthQuestions.length+biologyFifthQuestions.length,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
     },
     {
       title: "محاكي جدول الضرب 1-13",
       href: "/multiplication-sim",
-      description: "تدريب على حفظ جدول الضرب مع اختيارات متعددة.",
+      description: "تدريب على حفظ جدول الضرب مع اختيارات متعددة  مع واجهة تفاعلية ونتائج فورية. ",
       count: multiplicationQuestions.length,
       badges: ["رياضيات", "1-13", "مخصص"],
     },

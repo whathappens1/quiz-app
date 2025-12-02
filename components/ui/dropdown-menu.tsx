@@ -3,7 +3,7 @@
 import * as React from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
 import { cn } from "@/lib/utils"
-import { CheckIcon, ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons"
+import { ChevronRightIcon, DotFilledIcon } from "@radix-ui/react-icons"
 import { Check } from "lucide-react"
 
 const DropdownMenu = DropdownMenuPrimitive.Root
