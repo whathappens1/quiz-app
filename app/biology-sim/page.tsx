@@ -8,23 +8,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Github } from "lucide-react";
-import { questions_chapter_4 as biologyFourthQuestions } from "@/lib/biology-questions";
-import { questions_chapter_5 as biologyFifthQuestions } from "@/lib/biology-questions";
+import { questions_chapter_6 as biologySixthQuestions } from "@/lib/biology-questions";
+import { questions_chapter_7 as biologySeventhQuestions } from "@/lib/biology-questions";
 
 export default function Component() {
   const cards = [
     {
-      title: "اختبار الأحياء الفصل الرابع" ,
-      href: "/biology-sim/chapter/fourth",
-      description: "الدروس: خصائص الثدييات, تنوع الثدييات مع واجهة تفاعلية ونتائج فورية. ",
-      count: biologyFourthQuestions.length,
+      title: "اختبار الأحياء الفصل السادس" ,
+      href: "/biology-sim/chapter/sixth",
+      description: "الدروس: خلايا النبات وانسجته, هرمونات النباتات واستجاباتها",
+      count: biologySixthQuestions.length,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
     },
     {
-      title: "اختبار الأحياء الفصل الخامس" ,
-      href: "/biology-sim/chapter/fifth",
-      description: "الدروس: النباتات اللاوعائية, النباتات الوعائية اللابذرية, النباتات الوعائية البذرية",
-      count: biologyFifthQuestions.length,
+      title: "اختبار الأحياء الفصل السابع" ,
+      href: "/biology-sim/chapter/seventh",
+      description: "الدروس:  الازهار, النباتات الزهرية",
+      count: biologySeventhQuestions.length,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
     },
   ];

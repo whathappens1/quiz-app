@@ -18,7 +18,7 @@ export default function Component() {
     {
       title: "محاكي اختبار الأحياء الفترة الثانية" ,
       href: "/biology-sim",
-      description: "أسئلة الأحياء الفصل الرابع والخامس مع واجهة تفاعلية ونتائج فورية. ",
+      description: "التحديد: اختبار الفترة الثانية في الفصل  السادس و الفصل السابع من كتاب الطالب",
       count: biologyFourthQuestions.length+biologyFifthQuestions.length,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
     },

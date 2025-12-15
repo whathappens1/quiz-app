@@ -1,7 +1,7 @@
-![عرض المشروع](https://final-ecology-form.vercel.app/assets/overview.png)
-# اختبار فورم علم البيئة (نهائي)
+![عرض المشروع](https://nawa-forms.vercel.app/assets/overview.png)
+# منصة اختبارات تدعى نواة
 
-من جميع أسئلة [قروب تليجرام المادة بمجموع 200 سؤال](https://t.me/+qTLPMOCOk54wODVk)
+ومن ضمن الاختبارات: اختبار الاحياء المحاكي وجميع اسئلة الاختبار من [قروب تليجرام المادة أ. عبدالخالق جبرة](https://t.me/+qTLPMOCOk54wODVk)
 ملاحظة هامة: تم جمع الاسئلة بواسطة الذكاء الاصطناعي وجميع الإجابات الصحيحة في الاختبار قد تحتمل نسبة خطأ!
 
 ## المميزات
@@ -50,3 +50,23 @@ bun dev
 أسهل طريقة لنشر تطبيق Next.js الخاص بك هي استخدام منصة [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) من مبتكري Next.js.
 
 اطلع على [Next.js توثيق نشر](https://nextjs.org/docs/app/building-your-application/deploying) لمزيد من التفاصيل.
+
+## استخدام الذكاء الاصطناعي
+
+تذهب إلى اي تموذج ذكاء اصطناعي مثل deepseek والذي استخدمه بسبب انه مفتوح المصدر ومجاناً بالكامل
+وترفق ملف المحادثة المصدرة من قروب التلجيرام وتعطيه الامر التالي: 
+
+```هذه محادثة قروب لمادة الاحياء اريدك تجمع جميع الاسئلة quiz وتحوله لشكل التالي 
+بصيغة tsx
+
+ودائما ضع إجابة correctAnswer هي التصويت الاعلى من السؤال الذي من المحادثة
+وايضا دائما اذا كان يوجد للسؤال صورة اجعل المسار هكذا: /assets/photos/{imgurl}
+
+export type Question = {
+    id: number;
+  text: string;
+  options?: string[];
+  correctAnswer?: string;
+  imageURL?: string;
+  type: "question";
+}```
