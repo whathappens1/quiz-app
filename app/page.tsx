@@ -8,8 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Github } from "lucide-react";
-import { questions_chapter_4 as biologyFourthQuestions } from "@/lib/biology-questions";
-import { questions_chapter_5 as biologyFifthQuestions } from "@/lib/biology-questions";
+import { questions_chapter_6 as biology6Questions } from "@/lib/biology-questions";
+import { questions_chapter_7 as biology7Questions } from "@/lib/biology-questions";
 
 import { questions as multiplicationQuestions } from "@/lib/multiplication-questions";
 
@@ -19,7 +19,7 @@ export default function Component() {
       title: "محاكي اختبار الأحياء الفترة الثانية" ,
       href: "/biology-sim",
       description: "التحديد: اختبار الفترة الثانية في الفصل  السادس و الفصل السابع من كتاب الطالب",
-      count: biologyFourthQuestions.length+biologyFifthQuestions.length,
+      count: biology6Questions.length+biology7Questions.length,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
     },
     {
