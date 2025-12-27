@@ -49,7 +49,7 @@ function QuestionCard({
               }}
             />
 
-            <div className={`relative z-10 sm:pb-6 pb-0`}>
+            <div className={`relative z-10 sm:pb-4 pb-0`}>
               <CardHeader className="">
                 <CardTitle
                   dir="rtl"
@@ -123,7 +123,7 @@ function QuestionCard({
               }}
             />
 
-            <div className={`relative z-10 sm:pb-6 pb-0`}>
+            <div className={`relative z-10 sm:pb-4 pb-0`}>
               <CardHeader className="">
                 <CardTitle
                   dir="rtl"

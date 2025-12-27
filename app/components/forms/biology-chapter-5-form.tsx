@@ -124,11 +124,13 @@ export default function BiologyChapter5Form() {
         let correct = 0;
         let incorrect = 0;
         questions.forEach((question) => {
-          const userAnswer = watch(`question-${question.id}`);
-          if (userAnswer === question.correctAnswer && userAnswer !== "") {
-            correct++;
-          } else {
-            incorrect++;
+       if (question.type == "question") {
+            const userAnswer = watch(`question-${question.id}`);
+            if (userAnswer === question.correctAnswer && userAnswer !== "") {
+              correct++;
+            } else {
+              incorrect++;
+            }
           }
         });
         setCorrectAnswers(correct);
@@ -147,12 +149,14 @@ export default function BiologyChapter5Form() {
       let correct = 0;
       let incorrect = 0;
       questions.forEach((question) => {
-        const userAnswer = watch(`question-${question.id}`);
-        if (userAnswer === question.correctAnswer && userAnswer !== "") {
-          correct++;
-        } else if (userAnswer !== "") {
-          incorrect++;
-        }
+         if (question.type == "question") {
+            const userAnswer = watch(`question-${question.id}`);
+            if (userAnswer === question.correctAnswer && userAnswer !== "") {
+              correct++;
+            } else {
+              incorrect++;
+            }
+          }
       });
       setCorrectAnswers(correct);
       setIncorrectAnswers(incorrect);
@@ -244,7 +248,7 @@ export default function BiologyChapter5Form() {
         transition={{ duration: 0.5 }}
         className="text-sm text-center text-muted-foreground mb-4"
       >
-  تحديد الاختبار: النباتات اللاوعائية, النباتات الوعائية اللابذرية, النباتات الوعائية البذرية  
+ الدروس: النباتات اللاوعائية, النباتات الوعائية اللابذرية, النباتات الوعائية البذرية
       </motion.p>
       <motion.div
         initial={{ opacity: 0, y: -50 }}
@@ -272,7 +276,7 @@ export default function BiologyChapter5Form() {
           </Button>
           <ModeToggle />
           <a
-            href="https://github.com/whathappens1/biologyQuizChapter5-app"
+            href="https://github.com/qtamim/quiz-app"
             target="_blank"
             rel="noopener noreferrer"
           >

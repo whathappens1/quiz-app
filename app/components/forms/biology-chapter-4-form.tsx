@@ -124,11 +124,13 @@ export default function BiologyChapter4Form() {
         let correct = 0;
         let incorrect = 0;
         questions.forEach((question) => {
-          const userAnswer = watch(`question-${question.id}`);
-          if (userAnswer === question.correctAnswer && userAnswer !== "") {
-            correct++;
-          } else {
-            incorrect++;
+       if (question.type == "question") {
+            const userAnswer = watch(`question-${question.id}`);
+            if (userAnswer === question.correctAnswer && userAnswer !== "") {
+              correct++;
+            } else {
+              incorrect++;
+            }
           }
         });
         setCorrectAnswers(correct);
@@ -147,12 +149,14 @@ export default function BiologyChapter4Form() {
       let correct = 0;
       let incorrect = 0;
       questions.forEach((question) => {
-        const userAnswer = watch(`question-${question.id}`);
-        if (userAnswer === question.correctAnswer && userAnswer !== "") {
-          correct++;
-        } else if (userAnswer !== "") {
-          incorrect++;
-        }
+         if (question.type == "question") {
+            const userAnswer = watch(`question-${question.id}`);
+            if (userAnswer === question.correctAnswer && userAnswer !== "") {
+              correct++;
+            } else {
+              incorrect++;
+            }
+          }
       });
       setCorrectAnswers(correct);
       setIncorrectAnswers(incorrect);
@@ -244,7 +248,7 @@ export default function BiologyChapter4Form() {
         transition={{ duration: 0.5 }}
         className="text-sm text-center text-muted-foreground mb-4"
       >
-        تحديد الاختبار: خصائص الثدييات, تنوع الثدييات
+      الدروس: خصائص الثدييات, تنوع الثدييات
       </motion.p>
       <motion.div
         initial={{ opacity: 0, y: -50 }}
@@ -272,7 +276,7 @@ export default function BiologyChapter4Form() {
           </Button>
           <ModeToggle />
           <a
-            href="https://github.com/whathappens1/biologyQuizChapter4-app"
+            href="https://github.com/qtamim/quiz-app"
             target="_blank"
             rel="noopener noreferrer"
           >

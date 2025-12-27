@@ -6,12 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "react-hot-toast";
 import { Badge } from "@/components/ui/badge";
-import { questions_chapter_7 as questions } from "@/lib/biology-questions";
+import { questions_chapter_2 as questions } from "@/lib/biology-questions";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Github } from "lucide-react";
 import QuestionCard from "@/app/components/layouts/question-card";
 
-export default function BiologyChapter5Form() {
+export default function BiologyChapter4Form() {
   // Add state to track if we're on client side
   const [isClient, setIsClient] = useState(false);
   const [isRandomOrder, setIsRandomOrder] = useState<boolean>(false);
@@ -25,7 +25,7 @@ export default function BiologyChapter5Form() {
   // Initialize state with undefined first, then update from localStorage
   const [showResults, setShowResults] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("biologyQuizChapter7ShowResults");
+      const saved = localStorage.getItem("biologyQuizChapter2ShowResults");
       return saved ? JSON.parse(saved) : false;
     }
     return false;
@@ -33,7 +33,7 @@ export default function BiologyChapter5Form() {
 
   const [correctAnswers, setCorrectAnswers] = useState<number>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("biologyQuizChapter7CorrectAnswers");
+      const saved = localStorage.getItem("biologyQuizChapter2CorrectAnswers");
       return saved ? JSON.parse(saved) : 0;
     }
     return 0;
@@ -41,7 +41,7 @@ export default function BiologyChapter5Form() {
 
   const [incorrectAnswers, setIncorrectAnswers] = useState<number>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("biologyQuizChapter7IncorrectAnswers");
+      const saved = localStorage.getItem("biologyQuizChapter2IncorrectAnswers");
       return saved ? JSON.parse(saved) : 0;
     }
     return 0;
@@ -50,7 +50,7 @@ export default function BiologyChapter5Form() {
   // Get saved answers array for calculations
   const savedAnswers = isClient
     ? Object.values(
-        JSON.parse(localStorage.getItem("biologyQuizChapter7Answers") || "{}")
+        JSON.parse(localStorage.getItem("biologyQuizChapter2Answers") || "{}")
       ).filter((answer) => answer !== "")
     : [];
 
@@ -63,7 +63,7 @@ export default function BiologyChapter5Form() {
     defaultValues: isClient
       ? {
           ...Object.fromEntries(questions.map((q) => [`question-${q.id}`, ""])),
-          ...JSON.parse(localStorage.getItem("biologyQuizChapter7Answers") || "{}"), // Load saved answers
+          ...JSON.parse(localStorage.getItem("biologyQuizChapter2Answers") || "{}"), // Load saved answers
         }
       : {},
   });
@@ -72,7 +72,7 @@ export default function BiologyChapter5Form() {
   useEffect(() => {
     if (isClient) {
       const savedAnswers = JSON.parse(
-        localStorage.getItem("biologyQuizChapter7Answers") || "{}"
+        localStorage.getItem("biologyQuizChapter2Answers") || "{}"
       );
       Object.entries(savedAnswers).forEach(([key, value]) => {
         setValue(key, value);
@@ -90,7 +90,7 @@ export default function BiologyChapter5Form() {
       );
       // Only save if there are actual answers
       if (Object.values(answers).some((value) => value !== "")) {
-        localStorage.setItem("biologyQuizChapter7Answers", JSON.stringify(answers));
+        localStorage.setItem("biologyQuizChapter2Answers", JSON.stringify(answers));
       }
     }
   }, [allAnswers, isClient, watch]);
@@ -99,15 +99,15 @@ export default function BiologyChapter5Form() {
   useEffect(() => {
     if (isClient) {
       localStorage.setItem(
-        "biologyQuizChapter7ShowResults",
+        "biologyQuizChapter2ShowResults",
         JSON.stringify(showResults)
       );
       localStorage.setItem(
-        "biologyQuizChapter7CorrectAnswers",
+        "biologyQuizChapter2CorrectAnswers",
         JSON.stringify(correctAnswers)
       );
       localStorage.setItem(
-        "biologyQuizChapter7IncorrectAnswers",
+        "biologyQuizChapter2IncorrectAnswers",
         JSON.stringify(incorrectAnswers)
       );
     }
@@ -141,7 +141,7 @@ export default function BiologyChapter5Form() {
         const answers = Object.fromEntries(
           questions.map((q) => [`question-${q.id}`, watch(`question-${q.id}`)])
         );
-        localStorage.setItem("biologyQuizChapter7Answers", JSON.stringify(answers));
+        localStorage.setItem("biologyQuizChapter2Answers", JSON.stringify(answers));
       } else {
         toast.error("الرجاء الإجابة على جميع الأسئلة قبل الإرسال");
       }
@@ -205,15 +205,15 @@ export default function BiologyChapter5Form() {
   }, [isRandomOrder]);
 
   // Update reset functionality
-  const resetbiologyQuizChapter7 = () => {
+  const resetbiologyQuizChapter2 = () => {
     setShowResults(false);
     setCorrectAnswers(0);
     setIncorrectAnswers(0);
     questions.forEach((q) => setValue(`question-${q.id}`, ""));
-    localStorage.removeItem("biologyQuizChapter7Answers");
-    localStorage.removeItem("biologyQuizChapter7ShowResults");
-    localStorage.removeItem("biologyQuizChapter7CorrectAnswers");
-    localStorage.removeItem("biologyQuizChapter7IncorrectAnswers");
+    localStorage.removeItem("biologyQuizChapter2Answers");
+    localStorage.removeItem("biologyQuizChapter2ShowResults");
+    localStorage.removeItem("biologyQuizChapter2CorrectAnswers");
+    localStorage.removeItem("biologyQuizChapter2IncorrectAnswers");
   };
 
   // Render loading state or null while client-side code is hydrating
@@ -232,7 +232,7 @@ export default function BiologyChapter5Form() {
         transition={{ duration: 0.5 }}
         className="text-3xl font-bold text-center mb-2 sm:flex-row flex flex-col  items-center justify-center gap-2"
       >
-         أختبار أحياء الفصل السابع 
+        أختبار أحياء الفصل الثاني 
         <div className="flex items-center justify-center gap-2">
           <Badge variant="default" className="text-base">
             صف ثاني ثانوي
@@ -248,7 +248,7 @@ export default function BiologyChapter5Form() {
         transition={{ duration: 0.5 }}
         className="text-sm text-center text-muted-foreground mb-4"
       >
-الدروس: الازهار, النباتات الزهرية
+      الدروس: الأسماك, البرمائيات
       </motion.p>
       <motion.div
         initial={{ opacity: 0, y: -50 }}
@@ -290,7 +290,7 @@ export default function BiologyChapter5Form() {
       <AnimatePresence mode="wait">
         {!showResults ? (
           <motion.form
-            key="biologyQuizChapter7-form"
+            key="biologyQuizChapter2-form"
             variants={formVariants}
             initial="hidden"
             animate="visible"
@@ -431,7 +431,7 @@ export default function BiologyChapter5Form() {
                     : "إرسال الإجابات"}
                 </Button>
               ) : (
-                <Button onClick={resetbiologyQuizChapter7} className="w-full">
+                <Button onClick={resetbiologyQuizChapter2} className="w-full">
                   إعادة الاختبار
                 </Button>
               )}

@@ -2,10 +2,10 @@ import BiologyChapter7Form from "@/app/components/forms/biology-chapter-7-form";
 
 export async function generateMetadata() {
   return {
-    title: "أختبار محاكاة الفترة الثانية أحياء - الفصل السابع",
+    title: "أختبار أحياء محاكاة - الفصل السابع",
   };
 }
 
-export default async function MultiplicationPage() {
+export default async function BioExamUnit7Page() {
   return <BiologyChapter7Form />;
 }

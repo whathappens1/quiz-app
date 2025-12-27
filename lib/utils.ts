@@ -7,7 +7,7 @@ export type Question = {
   options?: string[];
   correctAnswer?: string;
   imageURL?: string;
-  type: string;
+  type: "question"| "info";
   intro?: {
     text: string;
     imageURL?: string;
