@@ -37,7 +37,7 @@ export default function Component() {
     {
       title: "محاكي اختبار الأحياء",
       href: "/biology-sim",
-      description: "من الفصل الأول حتى الفصل السابع",
+      description: "من الفصل الأول حتى الفصل التاسع والأخير",
       count: TotalBioQuestionsCount,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
     },
