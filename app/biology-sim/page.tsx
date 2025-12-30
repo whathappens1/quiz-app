@@ -8,6 +8,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Github } from "lucide-react";
+
+import { questions_chapter_9 as biologyNinthQuestions } from "@/lib/biology-questions";
+import { questions_chapter_8 as biologyEighthQuestions } from "@/lib/biology-questions";
 import { questions_chapter_7 as biologySeventhQuestions } from "@/lib/biology-questions";
 import { questions_chapter_6 as biologySixthQuestions } from "@/lib/biology-questions";
 import { questions_chapter_5 as biologyFifthQuestions } from "@/lib/biology-questions";
@@ -67,6 +70,20 @@ export default function Component() {
       count: biologySeventhQuestions.length,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
     },
+    {
+      title: "اختبار الأحياء الفصل الثامن" ,
+      href: "/biology-sim/chapter/eighth",
+      description: "الدروس: التراكيب الخلوية والعضيات,  كيمياء الخلية",
+      count: biologyEighthQuestions.length,
+      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+    },
+    {
+      title: "اختبار الأحياء الفصل التاسع" ,
+      href: "/biology-sim/chapter/ninth",
+      description: "الدروس: الازهار, النباتات الزهرية",
+      count: biologyNinthQuestions.length,
+      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+    },
   ];
 
   return (
@@ -77,7 +94,7 @@ export default function Component() {
         transition={{ duration: 0.5 }}
         className="text-3xl font-bold text-center mb-2 sm:flex-row flex flex-col items-center justify-center gap-2"
       >
-محاكي اختبار الأحياء
+        محاكي اختبار الأحياء
       </motion.h1>
 
       <motion.div
@@ -131,14 +148,11 @@ export default function Component() {
                 <Link href={item.href} className="w-full">
                   <Button className="w-full">بدء الاختبار</Button>
                 </Link>
-               
-
               </CardContent>
             </Card>
           </motion.div>
         ))}
       </div>
-
     
     </div>
   );

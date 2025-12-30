@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Github } from "lucide-react";
 
+import { questions_chapter_9 as biologyNinthQuestions } from "@/lib/biology-questions";
+import { questions_chapter_8 as biologyEighthQuestions } from "@/lib/biology-questions";
 import { questions_chapter_7 as biologySeventhQuestions } from "@/lib/biology-questions";
 import { questions_chapter_6 as biologySixthQuestions } from "@/lib/biology-questions";
 import { questions_chapter_5 as biologyFifthQuestions } from "@/lib/biology-questions";
@@ -27,7 +29,9 @@ export default function Component() {
     biologyFifthQuestions.length +
     biologyFourthQuestions.length +
     biologySeventhQuestions.length +
-    biologySixthQuestions.length;
+    biologySixthQuestions.length +
+    biologyEighthQuestions.length +
+    biologyNinthQuestions.length;
 
   const cards = [
     {
@@ -94,7 +98,7 @@ export default function Component() {
             transition={{ duration: 0.4, delay: idx * 0.1 }}
           >
             <Card className="h-full py-3">
-            <CardHeader>
+              <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg">{item.title}</CardTitle>
                   <Badge variant="secondary">{item.count} سؤال</Badge>
@@ -112,7 +116,12 @@ export default function Component() {
                   ))}
                 </div>
                 <Link href={item.href} className="w-full">
-                  <Button className="w-full"> {item.href == "/biology-sim" ? "اختر الفصل" : "بدء الأختبار"}  </Button>
+                  <Button className="w-full">
+                    {" "}
+                    {item.href == "/biology-sim"
+                      ? "اختر الفصل"
+                      : "بدء الأختبار"}{" "}
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
