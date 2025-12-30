@@ -80,7 +80,7 @@ export default function Component() {
     {
       title: "اختبار الأحياء الفصل التاسع" ,
       href: "/biology-sim/chapter/ninth",
-      description: "الدروس: الازهار, النباتات الزهرية",
+      description: "الدروس: كيف تحصل المخلوقات الحية على الطاقة, البناء الضوئي",
       count: biologyNinthQuestions.length,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
     },

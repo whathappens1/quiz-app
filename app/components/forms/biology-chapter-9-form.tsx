@@ -248,7 +248,7 @@ export default function BiologyChapter5Form() {
         transition={{ duration: 0.5 }}
         className="text-sm text-center text-muted-foreground mb-4"
       >
-الدروس: الازهار, النباتات الزهرية
+الدروس: كيف تحصل المخلوقات الحية على الطاقة, البناء الضوئي
       </motion.p>
       <motion.div
         initial={{ opacity: 0, y: -50 }}
