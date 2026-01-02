@@ -80,8 +80,15 @@ export default function Component() {
     {
       title: "اختبار الأحياء الفصل التاسع" ,
       href: "/biology-sim/chapter/ninth",
-      description: "الدروس: كيف تحصل المخلوقات الحية على الطاقة, البناء الضوئي",
+      description: "الدروس: كيف تحصل المخلوقات الحية على الطاقة, التنفس الخلوي, البناء الضوئي",
       count: biologyNinthQuestions.length,
+      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+    },
+    {
+      title: "اختبار نهائي محاكي" ,
+      href: "/biology-sim/final",
+      description: "هذا الاختبار يأخذ جميع الأسئلة ويختار 40 سؤال بشكل عشوائي للتدريب على الاختبار النهائي",
+      count: 40,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
     },
   ];

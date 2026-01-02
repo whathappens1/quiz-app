@@ -6,17 +6,64 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "react-hot-toast";
 import { Badge } from "@/components/ui/badge";
-import { questions_chapter_9 as questions } from "@/lib/biology-questions";
+import { Question } from "@/lib/utils";
+
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Github } from "lucide-react";
 import QuestionCard from "@/app/components/layouts/question-card";
 
-export default function BiologyChapter5Form() {
+import { questions_chapter_9 as biologyNinthQuestions } from "@/lib/biology-questions";
+import { questions_chapter_8 as biologyEighthQuestions } from "@/lib/biology-questions";
+import { questions_chapter_7 as biologySeventhQuestions } from "@/lib/biology-questions";
+import { questions_chapter_6 as biologySixthQuestions } from "@/lib/biology-questions";
+import { questions_chapter_5 as biologyFifthQuestions } from "@/lib/biology-questions";
+import { questions_chapter_4 as biologyFourthQuestions } from "@/lib/biology-questions";
+import { questions_chapter_3 as biologyThirdQuestions } from "@/lib/biology-questions";
+import { questions_chapter_2 as biologySecondQuestions } from "@/lib/biology-questions";
+import { questions_chapter_1 as biologyFirstQuestions } from "@/lib/biology-questions";
+
+export default function BiologyChapterFinalForm() {
+  const shuffleArray = <T,>(arr: T[]): T[] => {
+    const copy = [...arr];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  };
+
+  const getInitialSelectedQuestions = () => {
+    if (typeof window !== "undefined") {
+      const savedQuestions = localStorage.getItem("biologyQuizFinalSelectedQuestions");
+      if (savedQuestions) {
+        return JSON.parse(savedQuestions);
+      }
+    }
+
+    const allBiologyQuestions = Array.from(new Map([
+      ...biologyFirstQuestions,
+      ...biologySecondQuestions,
+      ...biologyThirdQuestions,
+      ...biologyFourthQuestions,
+      ...biologyFifthQuestions,
+      ...biologySixthQuestions,
+      ...biologySeventhQuestions,
+      ...biologyEighthQuestions,
+      ...biologyNinthQuestions,
+    ].map(item => [item["id"], item])).values());
+
+    const newSelectedQuestions = shuffleArray(allBiologyQuestions).slice(0, 40).sort((a, b) => a.id - b.id);
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem("biologyQuizFinalSelectedQuestions", JSON.stringify(newSelectedQuestions));
+    }
+    return newSelectedQuestions;
+  };
+
+  const [selectedQuestions, setSelectedQuestions] = useState<Question[]>(getInitialSelectedQuestions);
+  
   // Add state to track if we're on client side
   const [isClient, setIsClient] = useState(false);
-  const [isRandomOrder, setIsRandomOrder] = useState<boolean>(false);
-  const [shuffledIds, setShuffledIds] = useState<number[] | null>(null);
-
   // Set isClient to true once component mounts
   useEffect(() => {
     setIsClient(true);
@@ -25,7 +72,7 @@ export default function BiologyChapter5Form() {
   // Initialize state with undefined first, then update from localStorage
   const [showResults, setShowResults] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("biologyQuizChapter9ShowResults");
+      const saved = localStorage.getItem("biologyQuizFinalShowResults");
       return saved ? JSON.parse(saved) : false;
     }
     return false;
@@ -33,7 +80,7 @@ export default function BiologyChapter5Form() {
 
   const [correctAnswers, setCorrectAnswers] = useState<number>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("biologyQuizChapter9CorrectAnswers");
+      const saved = localStorage.getItem("biologyQuizFinalCorrectAnswers");
       return saved ? JSON.parse(saved) : 0;
     }
     return 0;
@@ -41,7 +88,7 @@ export default function BiologyChapter5Form() {
 
   const [incorrectAnswers, setIncorrectAnswers] = useState<number>(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("biologyQuizChapter9IncorrectAnswers");
+      const saved = localStorage.getItem("biologyQuizFinalIncorrectAnswers");
       return saved ? JSON.parse(saved) : 0;
     }
     return 0;
@@ -50,7 +97,7 @@ export default function BiologyChapter5Form() {
   // Get saved answers array for calculations
   const savedAnswers = isClient
     ? Object.values(
-        JSON.parse(localStorage.getItem("biologyQuizChapter9Answers") || "{}")
+        JSON.parse(localStorage.getItem("biologyQuizFinalAnswers") || "{}")
       ).filter((answer) => answer !== "")
     : [];
 
@@ -62,8 +109,10 @@ export default function BiologyChapter5Form() {
   } = useForm({
     defaultValues: isClient
       ? {
-          ...Object.fromEntries(questions.map((q) => [`question-${q.id}`, ""])),
-          ...JSON.parse(localStorage.getItem("biologyQuizChapter9Answers") || "{}"), // Load saved answers
+          ...Object.fromEntries(selectedQuestions.map((q: Question) => [`question-${q.id}`, ""])),
+          ...JSON.parse(
+            localStorage.getItem("biologyQuizFinalAnswers") || "{}"
+          ), // Load saved answers
         }
       : {},
   });
@@ -72,42 +121,45 @@ export default function BiologyChapter5Form() {
   useEffect(() => {
     if (isClient) {
       const savedAnswers = JSON.parse(
-        localStorage.getItem("biologyQuizChapter9Answers") || "{}"
+        localStorage.getItem("biologyQuizFinalAnswers") || "{}"
       );
       Object.entries(savedAnswers).forEach(([key, value]) => {
         setValue(key, value);
       });
     }
-  }, [isClient, setValue]);
+  }, [isClient, setValue, selectedQuestions]);
 
   // Save answers whenever they change
-  const allAnswers = questions.map((q) => watch(`question-${q.id}`));
+  const allAnswers = selectedQuestions.map((q: Question) => watch(`question-${q.id}`));
 
   useEffect(() => {
     if (isClient) {
       const answers = Object.fromEntries(
-        questions.map((q) => [`question-${q.id}`, watch(`question-${q.id}`)])
+        selectedQuestions.map((q: Question) => [`question-${q.id}`, watch(`question-${q.id}`)])
       );
       // Only save if there are actual answers
       if (Object.values(answers).some((value) => value !== "")) {
-        localStorage.setItem("biologyQuizChapter9Answers", JSON.stringify(answers));
+        localStorage.setItem(
+          "biologyQuizFinalAnswers",
+          JSON.stringify(answers)
+        );
       }
     }
-  }, [allAnswers, isClient, watch]);
+  }, [allAnswers, isClient, watch, selectedQuestions]);
 
   // Save other state to localStorage
   useEffect(() => {
     if (isClient) {
       localStorage.setItem(
-        "biologyQuizChapter9ShowResults",
+        "biologyQuizFinalShowResults",
         JSON.stringify(showResults)
       );
       localStorage.setItem(
-        "biologyQuizChapter9CorrectAnswers",
+        "biologyQuizFinalCorrectAnswers",
         JSON.stringify(correctAnswers)
       );
       localStorage.setItem(
-        "biologyQuizChapter9IncorrectAnswers",
+        "biologyQuizFinalIncorrectAnswers",
         JSON.stringify(incorrectAnswers)
       );
     }
@@ -123,8 +175,8 @@ export default function BiologyChapter5Form() {
       if (isAllQuestionsAnswered) {
         let correct = 0;
         let incorrect = 0;
-        questions.forEach((question) => {
-       if (question.type == "question") {
+        selectedQuestions.forEach((question: Question) => {
+          if (question.type == "question") {
             const userAnswer = watch(`question-${question.id}`);
             if (userAnswer === question.correctAnswer && userAnswer !== "") {
               correct++;
@@ -139,24 +191,27 @@ export default function BiologyChapter5Form() {
 
         // Save answers immediately on submit
         const answers = Object.fromEntries(
-          questions.map((q) => [`question-${q.id}`, watch(`question-${q.id}`)])
+          selectedQuestions.map((q: Question) => [`question-${q.id}`, watch(`question-${q.id}`)])
         );
-        localStorage.setItem("biologyQuizChapter9Answers", JSON.stringify(answers));
+        localStorage.setItem(
+          "biologyQuizFinalAnswers",
+          JSON.stringify(answers)
+        );
       } else {
         toast.error("الرجاء الإجابة على جميع الأسئلة قبل الإرسال");
       }
     } else {
       let correct = 0;
       let incorrect = 0;
-      questions.forEach((question) => {
-         if (question.type == "question") {
-            const userAnswer = watch(`question-${question.id}`);
-            if (userAnswer === question.correctAnswer && userAnswer !== "") {
-              correct++;
-            } else {
-              incorrect++;
-            }
+      selectedQuestions.forEach((question: Question) => {
+        const userAnswer = watch(`question-${question.id}`);
+        if (question.type == "question") {
+          if (userAnswer === question.correctAnswer && userAnswer !== "") {
+            correct++;
+          } else if (userAnswer !== "") {
+            incorrect++;
           }
+        }
       });
       setCorrectAnswers(correct);
       setIncorrectAnswers(incorrect);
@@ -174,47 +229,49 @@ export default function BiologyChapter5Form() {
     hidden: { opacity: 0, y: 50 },
   };
 
-  const shuffleArray = <T,>(arr: T[]): T[] => {
-    const copy = [...arr];
-    for (let i = copy.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-    return copy;
-  };
-
-  const displayedQuestions = isRandomOrder
-    ? (() => {
-        if (!shuffledIds) return questions;
-        const byId = new Map(questions.map((q) => [q.id, q] as const));
-        return shuffledIds
-          .map((id) => byId.get(id))
-          .filter((q): q is (typeof questions)[number] => Boolean(q));
-      })()
-    : questions;
-
-  // Build a stable shuffled order when random toggles
-  useEffect(() => {
-    if (isRandomOrder) {
-      const ids = questions.map((q) => q.id);
-      setShuffledIds(shuffleArray(ids));
-    } else {
-      setShuffledIds(null);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRandomOrder]);
-
   // Update reset functionality
-  const resetbiologyQuizChapter9 = () => {
+  const resetbiologyQuizFinal = () => {
     setShowResults(false);
     setCorrectAnswers(0);
     setIncorrectAnswers(0);
-    questions.forEach((q) => setValue(`question-${q.id}`, ""));
-    localStorage.removeItem("biologyQuizChapter9Answers");
-    localStorage.removeItem("biologyQuizChapter9ShowResults");
-    localStorage.removeItem("biologyQuizChapter9CorrectAnswers");
-    localStorage.removeItem("biologyQuizChapter9IncorrectAnswers");
+    selectedQuestions.forEach((q: Question) => setValue(`question-${q.id}`, ""));
+    localStorage.removeItem("biologyQuizFinalAnswers");
+    localStorage.removeItem("biologyQuizFinalShowResults");
+    localStorage.removeItem("biologyQuizFinalCorrectAnswers");
+    localStorage.removeItem("biologyQuizFinalIncorrectAnswers");
+    localStorage.removeItem("biologyQuizFinalSelectedQuestions");
   };
+
+  const reRandomizeQuestions = () => {
+    setShowResults(false);
+    setCorrectAnswers(0);
+    setIncorrectAnswers(0);
+    selectedQuestions.forEach((q: Question) => setValue(`question-${q.id}`, ""));
+    localStorage.removeItem("biologyQuizFinalAnswers");
+    localStorage.removeItem("biologyQuizFinalShowResults");
+    localStorage.removeItem("biologyQuizFinalCorrectAnswers");
+    localStorage.removeItem("biologyQuizFinalIncorrectAnswers");
+    localStorage.removeItem("biologyQuizFinalSelectedQuestions");
+    
+    const allBiologyQuestions = Array.from(new Map([
+      ...biologyFirstQuestions,
+      ...biologySecondQuestions,
+      ...biologyThirdQuestions,
+      ...biologyFourthQuestions,
+      ...biologyFifthQuestions,
+      ...biologySixthQuestions,
+      ...biologySeventhQuestions,
+      ...biologyEighthQuestions,
+      ...biologyNinthQuestions,
+    ].map(item => [item["id"], item])).values());
+    
+    const newSelectedQuestions = shuffleArray(allBiologyQuestions).slice(0, 40).sort((a, b) => a.id - b.id);
+    setSelectedQuestions(newSelectedQuestions);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("biologyQuizFinalSelectedQuestions", JSON.stringify(newSelectedQuestions));
+    }
+  }
+
 
   // Render loading state or null while client-side code is hydrating
   if (!isClient) {
@@ -232,7 +289,7 @@ export default function BiologyChapter5Form() {
         transition={{ duration: 0.5 }}
         className="text-3xl font-bold text-center mb-2 sm:flex-row flex flex-col  items-center justify-center gap-2"
       >
-         أختبار أحياء الفصل التاسع والأخير 
+        أختبار أحياء محاكي للنهائي
         <div className="flex items-center justify-center gap-2">
           <Badge variant="default" className="text-base">
             صف ثاني ثانوي
@@ -248,7 +305,7 @@ export default function BiologyChapter5Form() {
         transition={{ duration: 0.5 }}
         className="text-sm text-center text-muted-foreground mb-4"
       >
-الدروس: كيف تحصل المخلوقات الحية على الطاقة, التنفس الخلوي, البناء الضوئي
+       هذا الاختبار يأخذ جميع الأسئلة ويختار 40 سؤال بشكل عشوائي للتدريب على الاختبار النهائي
       </motion.p>
       <motion.div
         initial={{ opacity: 0, y: -50 }}
@@ -263,16 +320,16 @@ export default function BiologyChapter5Form() {
           المعلم: عبدالخالق جبره
         </Badge>
         <Badge variant="secondary" className="text-sm">
-          عدد الأسئلة: {questions.length}
+          عدد الأسئلة: 40
         </Badge>
 
         <div className="flex items-center gap-2 justify-center">
-          <Button
-            variant={isRandomOrder ? "default" : "outline"}
-            onClick={() => setIsRandomOrder((prev) => !prev)}
+        <Button
+            variant={"outline"}
             disabled={showResults}
+             onClick={reRandomizeQuestions}
           >
-            {isRandomOrder ? "إلغاء العشوائية" : "ترتيب عشوائي"}
+             إعادة إختيار الأسئلة عشوائيًا
           </Button>
           <ModeToggle />
           <a
@@ -290,7 +347,7 @@ export default function BiologyChapter5Form() {
       <AnimatePresence mode="wait">
         {!showResults ? (
           <motion.form
-            key="biologyQuizChapter9-form"
+            key="biologyQuizFinal-form"
             variants={formVariants}
             initial="hidden"
             animate="visible"
@@ -298,7 +355,7 @@ export default function BiologyChapter5Form() {
             transition={{ duration: 0.5 }}
             onSubmit={handleSubmit(onSubmit)}
           >
-            {displayedQuestions.map((question, idx) => (
+            {selectedQuestions.map((question: Question, idx: number) => (
               <motion.div
                 key={question.id}
                 initial={{ opacity: 0, x: -50 }}
@@ -307,7 +364,7 @@ export default function BiologyChapter5Form() {
               >
                 <QuestionCard
                   {...{ question, errors, watch, setValue }}
-                  WithoutIntro={isRandomOrder}
+                  WithoutIntro={true}
                 />
               </motion.div>
             ))}
@@ -349,20 +406,19 @@ export default function BiologyChapter5Form() {
                   </Badge>
                   <Badge variant={"default"} dir="rtl">
                     <p>
-                      الأسئلة المتبقية: {questions.length}/
-                      {questions.length - savedAnswers.length}
+                      الأسئلة المتبقية: {selectedQuestions.length}/{selectedQuestions.length - savedAnswers.length}
                     </p>
                   </Badge>
                 </div>
                 <p>
                   النسبة المئوية للإجابات الصحيحة:{" "}
                   <span className="font-bold">
-                    {((correctAnswers / savedAnswers.length) * 100).toFixed(2)}%
+                    {savedAnswers.length > 0 ? ((correctAnswers / savedAnswers.length) * 100).toFixed(2) : "0.00"}%
                   </span>
                 </p>
               </CardContent>
             </Card>
-            {displayedQuestions.map((question, idx) => {
+            {selectedQuestions.map((question: Question, idx: number) => {
               const userAnswer = watch(`question-${question.id}`) as string;
               const isCorrect = userAnswer === question.correctAnswer;
               if (userAnswer) {
@@ -379,7 +435,7 @@ export default function BiologyChapter5Form() {
                     <QuestionCard
                       {...{ question, isCorrect, userAnswer }}
                       isResult={true}
-                      WithoutIntro={isRandomOrder}
+                      WithoutIntro={true}
                     />
                   </motion.div>
                 );
@@ -431,9 +487,12 @@ export default function BiologyChapter5Form() {
                     : "إرسال الإجابات"}
                 </Button>
               ) : (
-                <Button onClick={resetbiologyQuizChapter9} className="w-full">
-                  إعادة الاختبار
-                </Button>
+                <div className="flex flex-col gap-4 w-full">
+                  <Button onClick={resetbiologyQuizFinal} className="w-full">
+                    إعادة الاختبار
+                  </Button>
+           
+                </div>
               )}
             </div>
           </motion.div>
