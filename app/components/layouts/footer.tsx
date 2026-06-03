@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 
 function Footer() {
+  const year = new Date().getFullYear();
   return (
     <motion.footer
       initial={{ opacity: 0 }}
@@ -11,7 +12,7 @@ function Footer() {
     >
       <p className="text-muted-foreground text-sm text-center">
         كل الحقوق محفوظة لـ{" "}
-        <span className="text-black dark:text-white">تميم السهلي</span> © 2025.
+        <span className="text-black dark:text-white font-bold">تميم السهلي</span> © {year}.
       </p>
     </motion.footer>
   );

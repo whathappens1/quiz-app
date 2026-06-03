@@ -8,101 +8,100 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Github } from "lucide-react";
-
-import { questions_chapter_9 as biologyNinthQuestions } from "@/lib/biology-questions";
-import { questions_chapter_8 as biologyEighthQuestions } from "@/lib/biology-questions";
-import { questions_chapter_7 as biologySeventhQuestions } from "@/lib/biology-questions";
-import { questions_chapter_6 as biologySixthQuestions } from "@/lib/biology-questions";
-import { questions_chapter_5 as biologyFifthQuestions } from "@/lib/biology-questions";
-import { questions_chapter_4 as biologyFourthQuestions } from "@/lib/biology-questions";
-import { questions_chapter_3 as biologyThirdQuestions } from "@/lib/biology-questions";
-import { questions_chapter_2 as biologySecondQuestions } from "@/lib/biology-questions";
-import { questions_chapter_1 as biologyFirstQuestions } from "@/lib/biology-questions";
+import Image from "next/image";
 
 export default function Component() {
   const cards = [
     {
-      title: "اختبار الأحياء الفصل الأول" ,
-      href: "/biology-sim/chapter/first",
-      description: "الدروس: خصائص شوكيات الجلد, اللافقاريات الحبلية",
-      count: biologyFirstQuestions.length,
+      title: "الباب الأول: الجهازان الهيكلي والعضلي",
+      href: "/biology-sim/unit-1",
+      count: 25,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+      description: "الجهاز الهيكلي والجهاز العضلي",
     },
     {
-      title: "اختبار الأحياء الفصل الثاني" ,
-      href: "/biology-sim/chapter/second",
-      description: "الدروس: الأسماك, البرمائيات",
-      count: biologySecondQuestions.length,
-      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
-    },
-    {
-      title: "اختبار الأحياء الفصل الثالث" ,
-      href: "/biology-sim/chapter/third",
-      description: "الدروس: الزواحف, الطيور",
-      count: biologyThirdQuestions.length,
-      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
-    },
-    {
-      title: "اختبار الأحياء الفصل الرابع" ,
-      href: "/biology-sim/chapter/fourth",
-      description: "الدروس: خصائص الثدييات, تنوع الثدييات",
-      count: biologyFourthQuestions.length,
-      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
-    },
-    {
-      title: "اختبار الأحياء الفصل الخامس" ,
-      href: "/biology-sim/chapter/fifth",
-      description: "الدروس: النباتات اللاوعائية, النباتات الوعائية اللابذرية, النباتات الوعائية البذرية",
-      count: biologyFifthQuestions.length,
-      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
-    },
-    {
-      title: "اختبار الأحياء الفصل السادس" ,
-      href: "/biology-sim/chapter/sixth",
-      description: "الدروس: خلايا النبات وانسجته, هرمونات النباتات واستجاباتها",
-      count: biologySixthQuestions.length,
-      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
-    },
-    {
-      title: "اختبار الأحياء الفصل السابع" ,
-      href: "/biology-sim/chapter/seventh",
-      description: "الدروس: الازهار, النباتات الزهرية",
-      count: biologySeventhQuestions.length,
-      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
-    },
-    {
-      title: "اختبار الأحياء الفصل الثامن" ,
-      href: "/biology-sim/chapter/eighth",
-      description: "الدروس: التراكيب الخلوية والعضيات,  كيمياء الخلية",
-      count: biologyEighthQuestions.length,
-      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
-    },
-    {
-      title: "اختبار الأحياء الفصل التاسع" ,
-      href: "/biology-sim/chapter/ninth",
-      description: "الدروس: كيف تحصل المخلوقات الحية على الطاقة, التنفس الخلوي, البناء الضوئي",
-      count: biologyNinthQuestions.length,
-      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
-    },
-    {
-      title: "اختبار نهائي محاكي" ,
-      href: "/biology-sim/final",
-      description: "هذا الاختبار يأخذ جميع الأسئلة ويختار 40 سؤال بشكل عشوائي للتدريب على الاختبار النهائي",
+      title: "الباب الثاني: الجهاز العصبي",
+      href: "/biology-sim/unit-2",
       count: 40,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+      description: "تركيب الجهاز العصبي وتنظيمه وتأثير العقاقير",
+    },
+    {
+      title: "الباب الثالث: أجهزة الدوران والتنفس والإخراج",
+      href: "/biology-sim/unit-3",
+      count: 25,
+      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+      description: "جهاز الدوران والجهاز التنفسي والجهاز الإخراجي",
+    },
+    {
+      title: "الباب الرابع: جهاز الهضم والغدد الصم",
+      href: "/biology-sim/unit-4",
+      count: 39,
+      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+      description: "الجهاز الهضمي والتغذية وجهاز الغدد الصم",
+    },
+    {
+      title: "الباب الخامس: التكاثر والنمو في الإنسان",
+      href: "/biology-sim/unit-5",
+      count: 20,
+      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+      description: "جهاز التكاثر في الإنسان ومراحل نمو الجنين",
+    },
+    {
+      title: "الباب السادس: جهاز المناعة",
+      href: "/biology-sim/unit-6",
+      count: 12,
+      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+      description: "جهاز المناعة والمناعة المتخصصة وغير المتخصصة",
+    },
+    {
+      title: "الباب السابع: التكاثر الخلوي",
+      href: "/biology-sim/unit-7",
+      count: 36,
+      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+      description: "النمو الخلوي والانقسام المتساوي وتنظيم دورة الخلية",
+    },
+    {
+      title: "الباب الثامن: التكاثر الجنسي والوراثة",
+      href: "/biology-sim/unit-8",
+      count: 29,
+      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+      description: "الانقسام المنصف والوراثة المندلية وارتباط الجينات",
+    },
+    {
+      title: "الباب التاسع: الوراثة المعقدة والوراثة البشرية",
+      href: "/biology-sim/unit-9",
+      count: 41,
+      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+      description: "الأنماط الأساسية والمعقدة لوراثة الإنسان والكروموسومات",
+    },
+    {
+      title: "الباب العاشر: الوراثة الجزيئية",
+      href: "/biology-sim/unit-10",
+      count: 26,
+      badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
+      description: "المادة الوراثية DNA وتضاعفها و RNA والبروتين والطفرات",
     },
   ];
 
   return (
-    <div className="container mx-auto py-24 pb-32 max-w-screen-lg p-4" dir="rtl">
+    <div className="container mx-auto py-24 pb-32 max-w-screen-xl p-4" dir="rtl">
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="text-3xl font-bold text-center mb-2 sm:flex-row flex flex-col items-center justify-center gap-2"
       >
-        محاكي اختبار الأحياء
+        محاكي نهائي لاختبار الأحياء <Image src="/assets/bio-jbrah-logo.png" alt="biology-logo" className="dark:invert invert-0" width={100} height={100} />
       </motion.h1>
+      <motion.p
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-sm text-center text-muted-foreground mb-4"
+      >
+        هذا الاختبار يأخذ أهم الأسئلة من أوراق عمل مادة الأحياء للتدريب على الاختبار النهائي ومقسمة على كل وحدة{" "}
+      </motion.p>
 
       <motion.div
         initial={{ opacity: 0, y: -50 }}
@@ -112,6 +111,12 @@ export default function Component() {
       >
         <Badge variant="secondary" className="text-sm">
         اختر الفصل وابدء الاختبار  
+        </Badge>
+        <Badge variant="secondary" className="text-sm cursor-pointer">
+          ثانوية زهير بن قيس
+        </Badge>
+        <Badge variant="secondary" className="text-sm cursor-pointer">
+          المعلم: عبدالخالق جبره
         </Badge>
         <div className="flex items-center gap-2 justify-center">
           <ModeToggle />
@@ -128,7 +133,7 @@ export default function Component() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3  gap-4">
         {cards.map((item, idx) => (
           <motion.div
             key={item.href}
@@ -136,10 +141,10 @@ export default function Component() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: idx * 0.1 }}
           >
-            <Card className="h-full py-3">
+            <Card className="h-full py-3 w-full">
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">{item.title}</CardTitle>
+                <div className="flex items-start justify-between">
+                  <CardTitle className="text-base">{item.title}</CardTitle>
                   <Badge variant="secondary">{item.count} سؤال</Badge>
                 </div>
               </CardHeader>

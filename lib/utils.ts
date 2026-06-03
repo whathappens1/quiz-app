@@ -1,13 +1,19 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
+export type MatchItem = {
+  term: string;
+  definition: string;
+};
+
 export type Question = {
   id: number;
   text: string;
   options?: string[];
   correctAnswer?: string;
   imageURL?: string;
-  type: "question"| "info";
+  type: "multiple" | "info" | "match";
+  matchItems?: MatchItem[];
   intro?: {
     text: string;
     imageURL?: string;

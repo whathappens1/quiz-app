@@ -8,46 +8,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Github } from "lucide-react";
-
-import { questions_chapter_9 as biologyNinthQuestions } from "@/lib/biology-questions";
-import { questions_chapter_8 as biologyEighthQuestions } from "@/lib/biology-questions";
-import { questions_chapter_7 as biologySeventhQuestions } from "@/lib/biology-questions";
-import { questions_chapter_6 as biologySixthQuestions } from "@/lib/biology-questions";
-import { questions_chapter_5 as biologyFifthQuestions } from "@/lib/biology-questions";
-import { questions_chapter_4 as biologyFourthQuestions } from "@/lib/biology-questions";
-import { questions_chapter_3 as biologyThirdQuestions } from "@/lib/biology-questions";
-import { questions_chapter_2 as biologySecondQuestions } from "@/lib/biology-questions";
-import { questions_chapter_1 as biologyFirstQuestions } from "@/lib/biology-questions";
-
-import { questions as multiplicationQuestions } from "@/lib/multiplication-questions";
+import Image from "next/image";
 
 export default function Component() {
-  const TotalBioQuestionsCount =
-    biologyFirstQuestions.length +
-    biologySecondQuestions.length +
-    biologyThirdQuestions.length +
-    biologyFifthQuestions.length +
-    biologyFourthQuestions.length +
-    biologySeventhQuestions.length +
-    biologySixthQuestions.length +
-    biologyEighthQuestions.length +
-    biologyNinthQuestions.length;
-
   const cards = [
     {
-      title: "محاكي اختبار الأحياء",
+      title: "محاكي اختبار الأحياء من",
       href: "/biology-sim",
-      description: "من الفصل الأول حتى الفصل التاسع والأخير",
-      count: TotalBioQuestionsCount,
+      description: "هذا الاختبار يأخذ أهم الأسئلة من أوراق عمل مادة الأحياء للتدريب على الاختبار النهائي ومقسمة على كل وحدة",
+
+      count: 293,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
-    },
-    {
-      title: "محاكي جدول الضرب 1-13",
-      href: "/multiplication-sim",
-      description:
-        "تدريب على حفظ جدول الضرب مع اختيارات متعددة  مع واجهة تفاعلية ونتائج فورية. ",
-      count: multiplicationQuestions.length,
-      badges: ["رياضيات", "1-13", "مخصص"],
     },
   ];
 
@@ -89,7 +60,7 @@ export default function Component() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="flex gap-4 justify-center items-center">
         {cards.map((item, idx) => (
           <motion.div
             key={item.href}
@@ -97,10 +68,10 @@ export default function Component() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: idx * 0.1 }}
           >
-            <Card className="h-full py-3">
-              <CardHeader>
+            <Card className="h-full py-3 sm:w-[380px] w-full">
+            <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">{item.title}</CardTitle>
+                  <CardTitle className="text-lg flex items-center gap-2">{item.title} <Image src="/assets/bio-jbrah-logo.png" alt="biology-logo" className="dark:invert invert-0" width={50} height={50} /></CardTitle>
                   <Badge variant="secondary">{item.count} سؤال</Badge>
                 </div>
               </CardHeader>
