@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Github } from "lucide-react";
 import Image from "next/image";
+import { questions_summary } from "@/lib/biology-questions";
 
 export default function Component() {
   const cards = [
@@ -17,7 +18,7 @@ export default function Component() {
       href: "/biology-sim",
       description: "هذا الاختبار يأخذ أهم الأسئلة من أوراق عمل مادة الأحياء للتدريب على الاختبار النهائي ومقسمة على كل وحدة",
 
-      count: 293,
+      count: questions_summary.length,
       badges: ["ثاني ثانوي", "أحياء", "عبدالخالق جبره"],
     },
   ];

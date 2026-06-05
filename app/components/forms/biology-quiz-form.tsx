@@ -501,7 +501,7 @@ export default function BiologyQuizForm({
           transition={{ duration: 0.5 }}
         >
           <p className="sm:text-sm text-xs text-center text-muted-foreground">
-        ملاحظة: جميع أسئلة المقالي لا يتم عرضها في النتائج و لايتم حسابها في صفحة النتائج!
+        ملاحظة: جميع أسئلة المقالي لا يتم عرضها في صفحة النتائج بالموقع و لايتم حسابها ضمن درجة النتائج ايضا!
           </p>
         </motion.div>
       </AnimatePresence>

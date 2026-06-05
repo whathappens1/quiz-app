@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { FieldErrors, UseFormSetValue, UseFormWatch } from "react-hook-form";
-import { Check, X } from "lucide-react";
+import { Check, Sparkles, X } from "lucide-react";
 
 type QuizFormValues = Record<string, string>;
 
@@ -186,10 +186,11 @@ function QuestionCard({
                 <Image
                   src={question?.imageURL || "/placeholder.svg"}
                   alt="Question image"
-                  width={200}
-                  height={200}
+                  width={512}
+                  height={512}
                   loading="lazy"
-                  className="rounded-xl bg-muted border w-72 h-full object-contain mb-2"
+                  quality={100}
+                  className="rounded-xl bg-muted border w-96 h-full object-contain mb-2"
                 />
               </div>
             )}
@@ -225,10 +226,19 @@ function QuestionCard({
         <Card className="mb-6 relative z-10 overflow-hidden">
           <div className="relative z-10">
             <CardHeader>
-              <div className="flex items-center justify-between gap-2">
-                <Badge dir="rtl" className="w-fit">
+              <div className="flex items-center justify-between gap-2 mb-3">
+          <div className="flex items-center gap-2">
+          <Badge dir="rtl" className="w-fit">
                   سؤال رقم {question.id}
                 </Badge>
+                {question.SpecialQuestion && (
+                        <Badge dir="rtl" className="w-fit flex items-center gap-2" variant="outline">
+                          سؤال مثالي
+                          <Sparkles className="w-3 h-3" />
+                        </Badge>
+                    
+                    )}
+          </div>
                 <Badge
                   variant={
                     question.type == "multiple"
@@ -239,26 +249,28 @@ function QuestionCard({
                   }
                   dir="rtl"
                   className="w-fit"
-                >
+                  >
                   {question.type == "multiple"
                     ? "سؤال من متعدد"
                     : question.type == "match"
                     ? "سؤال توصيل"
                     : "سؤال مقالي"}
                 </Badge>
+             
               </div>
               {question?.imageURL && (
-                <div className="my-3">
-                  <Image
-                    src={question?.imageURL || "/placeholder.svg"}
-                    alt="Question image"
-                    width={200}
-                    height={200}
-                    loading="lazy"
-                    className="rounded-xl bg-muted border w-72 h-full object-contain mb-2"
-                  />
-                </div>
-              )}
+              <div className="my-3">
+                <Image
+                  src={question?.imageURL || "/placeholder.svg"}
+                  alt="Question image"
+                  width={512}
+                  height={512}
+                  loading="lazy"
+                  quality={100}
+                  className="rounded-xl bg-muted border w-96 h-full object-contain mb-2"
+                />
+              </div>
+            )}
               <CardTitle
                 dir="rtl"
                 className="flex items-center justify-start gap-2 pt-1 text-wrap w-full"

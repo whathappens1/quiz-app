@@ -11,8 +11,8 @@ function Footer() {
       className="mt-auto py-6"
     >
       <p className="text-muted-foreground text-sm text-center">
-        كل الحقوق محفوظة لـ{" "}
-        <span className="text-black dark:text-white font-bold">تميم السهلي</span> © {year}.
+        من تطوير{" "}
+        <span className="text-black dark:text-white font-medium">تميم السهلي</span> © {year}.
       </p>
     </motion.footer>
   );

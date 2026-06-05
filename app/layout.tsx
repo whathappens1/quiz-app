@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: '%s | منصة نواة', 
     default: 'للاختبارات المحاكية | منصة نواة', 
   },
-  description: 'من تميم السهلي',
+  description: 'من تطوير تميم السهلي',
 };
 
 const font = Baloo_Bhaijaan_2({

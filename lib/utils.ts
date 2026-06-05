@@ -9,6 +9,7 @@ export type MatchItem = {
 export type Question = {
   id: number;
   text: string;
+  SpecialQuestion?: boolean;
   options?: string[];
   correctAnswer?: string;
   imageURL?: string;
